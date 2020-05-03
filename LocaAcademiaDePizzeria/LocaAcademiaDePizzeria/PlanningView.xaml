@@ -11,10 +11,17 @@
     <Page.Resources>
         <DataTemplate x:Key="DriverListView_Collapsed_Collapsed_DefaultItemTemplate"
                       x:DataType="local:DriverViewModel">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="{x:Bind actDeliveries}"/>
-                <Image Source="{x:Bind imgSource}" Width="50" Height="50" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            </StackPanel>
+            <Grid RowSpacing="5px" Margin="0,0,0,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height ="3*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Image Source="{x:Bind imgSource}" Grid.Row="0"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Stretch="UniformToFill" Margin="0,10,0,10"/>
+                <ProgressBar Grid.Row ="1" Value ="50" Background="Red" Foreground="LightGreen"
+                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="20"/>
+            </Grid>
         </DataTemplate>
     </Page.Resources>
     <Grid>
@@ -29,26 +36,24 @@
                 <Image Source="Assets/Samples/1.png"/>
             </StackPanel>-->
         </Button>
-        <Grid>
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom"
+              Width="200px" Height="700px">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="1"
-            Orientation="Vertical" 
-            VerticalAlignment="Bottom" HorizontalAlignment="Left"
-            Height="388" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5" Width="180">
-                <ListView
+            <ListView VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+                Grid.Row="0"
                 x:Name="collapsedDrivers"
                 ItemsSource="{x:Bind DriverList, Mode=OneWay}"
-                ItemTemplate="{StaticResource DriverListView_Collapsed_Collapsed_DefaultItemTemplate}"/>
-                <Button>
-                    <!--AQUI TENDRIA QUE IR EL ICONO DEL PIZZATIME-->
-                    <!--<StackPanel>
+                ItemTemplate="{StaticResource DriverListView_Collapsed_Collapsed_DefaultItemTemplate}" Margin="0,0,10,0"/>
+            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
+                <Image Source="/Assets/BotonMenuRepartidor.png" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                <!--AQUI TENDRIA QUE IR EL ICONO DEL PIZZATIME-->
+                <!--<StackPanel>
                 <Image/>
             </StackPanel>-->
-                </Button>
-            </StackPanel>
+            </Button>
         </Grid>
     </Grid>
 </Page>
