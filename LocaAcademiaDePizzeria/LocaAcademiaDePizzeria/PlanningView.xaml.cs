@@ -24,7 +24,8 @@ namespace LocaAcademiaDePizzeria
     /// 
     public sealed partial class PlanningView : Page
     {
-        public ObservableCollection<DriverViewModel> DriverList { get; } = new ObservableCollection<DriverViewModel>(); 
+        public ObservableCollection<DriverViewModel> DriverList { get; } = new ObservableCollection<DriverViewModel>();
+        public ObservableCollection<AbilityViewModel> AbilityList { get; } = new ObservableCollection<AbilityViewModel>(); 
         public PlanningView()
         {
             this.InitializeComponent();
@@ -39,8 +40,37 @@ namespace LocaAcademiaDePizzeria
                     DriverViewModel VMitem = new DriverViewModel(driver);
                     DriverList.Add(VMitem);
                 }
+            // Carga la lista de ModelView a partir de la lista de Modelo
+            if (AbilityList != null)
+                foreach (Ability ability in AbilityModel.GetAllAbilities())
+                {
+                    AbilityViewModel VMitem = new AbilityViewModel(ability);
+                    AbilityList.Add(VMitem);
+                }
+            Grid_expandedAbility.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
             base.OnNavigatedTo(e);
+        }
+
+        private void OpenAbilties()
+        {
+            Button_OpenAbilitiesGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            Grid_expandedAbility.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        }
+        private void CloseAbilties()
+        {
+            Button_OpenAbilitiesGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            Grid_expandedAbility.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
+
+        private void Button_OpenAbilitiesGrid_Click(object sender, RoutedEventArgs e)
+        {
+            OpenAbilties();
+        }
+
+        private void Button_CloseAbilites_Click(object sender, RoutedEventArgs e)
+        {
+            CloseAbilties();
         }
     }
 }
