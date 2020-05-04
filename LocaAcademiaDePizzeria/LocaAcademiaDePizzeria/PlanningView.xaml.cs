@@ -47,7 +47,8 @@ namespace LocaAcademiaDePizzeria
                     AbilityViewModel VMitem = new AbilityViewModel(ability);
                     AbilityList.Add(VMitem);
                 }
-            Grid_expandedAbility.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            CloseAbilties();
+            CloseDrivers();
 
             base.OnNavigatedTo(e);
         }
@@ -63,6 +64,17 @@ namespace LocaAcademiaDePizzeria
             Grid_expandedAbility.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
+        private void OpenDrivers()
+        {
+            Grid_expandedDrivers.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            Grid_collapsedDrivers.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
+        private void CloseDrivers()
+        {
+            Grid_expandedDrivers.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            Grid_collapsedDrivers.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        }
+
         private void Button_OpenAbilitiesGrid_Click(object sender, RoutedEventArgs e)
         {
             OpenAbilties();
@@ -71,6 +83,16 @@ namespace LocaAcademiaDePizzeria
         private void Button_CloseAbilites_Click(object sender, RoutedEventArgs e)
         {
             CloseAbilties();
+        }
+
+        private void Button_CloseDrivers_Click(object sender, RoutedEventArgs e)
+        {
+            CloseDrivers();
+        }
+
+        private void OpenDriversButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenDrivers();
         }
     }
 }

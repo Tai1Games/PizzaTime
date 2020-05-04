@@ -40,6 +40,24 @@
                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="20"/>
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="DriverListView_Expanded_DefaultItemTemplate"
+                      x:DataType="local:DriverViewModel">
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center"
+                  Margin="10,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height ="2*"/>
+                    <RowDefinition Height ="3*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <ProgressBar Grid.Row ="0" Value ="50" Background="Red" Foreground="LightGreen"
+                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="20"/>
+                <Image Source="{x:Bind imgSource}" Grid.Row="1"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Stretch="UniformToFill" Margin="0,0,0,0"/>
+                <TextBlock Grid.Row="2" Text="{x:Bind name}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           FontSize="20"/>
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
     <Grid>
         <Image
@@ -53,7 +71,7 @@
                 <Image Source="Assets/Samples/1.png"/>
             </StackPanel>-->
         </Button>
-        <Grid x:Name="collapsedDriverGrid" 
+        <Grid x:Name="Grid_collapsedDrivers" 
             HorizontalAlignment="Left" VerticalAlignment="Bottom"
               Width="200px" Height="700px">
             <Grid.RowDefinitions>
@@ -65,7 +83,7 @@
                 x:Name="collapsedDrivers"
                 ItemsSource="{x:Bind DriverList, Mode=OneWay}"
                 ItemTemplate="{StaticResource DriverListView_Collapsed_DefaultItemTemplate}" Margin="0,0,10,0"/>
-            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
+            <Button x:Name="OpenDriversButton" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Click="OpenDriversButton_Click">
                 <Image Source="/Assets/BotonMenuRepartidor.png" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
                 <!--AQUI TENDRIA QUE IR EL ICONO DEL PIZZATIME-->
                 <!--<StackPanel>
@@ -100,6 +118,30 @@
             </ListView>
             <Button x:Name="Button_CloseAbilites" Grid.Column="2" Background="Red" Content="X" VerticalAlignment="Bottom" HorizontalAlignment="Right"
                     Click="Button_CloseAbilites_Click"/>
+        </Grid>
+        <Grid x:Name="Grid_expandedDrivers" 
+            HorizontalAlignment="Left" VerticalAlignment="Bottom"
+              Width="1000" Height="300px" Background="LightBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="125px" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="55px" />
+            </Grid.ColumnDefinitions>
+            <ListView VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.VerticalScrollMode="Disabled"      
+                Grid.Column ="1"
+                x:Name="expandedDrivers"
+                ItemsSource="{x:Bind DriverList, Mode=OneWay}"
+                ItemTemplate="{StaticResource DriverListView_Expanded_DefaultItemTemplate}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="50"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+            <Button x:Name="Button_CloseDrivers" Grid.Column="2" Background="Red" Content="X" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                    Click="Button_CloseDrivers_Click"/>
         </Grid>
     </Grid>
 </Page>
