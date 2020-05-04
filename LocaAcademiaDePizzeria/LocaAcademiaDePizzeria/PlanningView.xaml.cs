@@ -68,10 +68,12 @@ namespace LocaAcademiaDePizzeria
         {
             Grid_expandedDrivers.Visibility = Windows.UI.Xaml.Visibility.Visible;
             Grid_collapsedDrivers.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            Grid_DriverInfo.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
         private void CloseDrivers()
         {
             Grid_expandedDrivers.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            Grid_DriverInfo.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             Grid_collapsedDrivers.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
 

@@ -127,13 +127,12 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="55px" />
             </Grid.ColumnDefinitions>
-            <ListView VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+            <ListView
                   ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                 ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.VerticalScrollMode="Disabled"      
-                Grid.Column ="1"
+                 ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.VerticalScrollMode="Disabled"
                 x:Name="expandedDrivers"
                 ItemsSource="{x:Bind DriverList, Mode=OneWay}"
-                ItemTemplate="{StaticResource DriverListView_Expanded_DefaultItemTemplate}">
+                ItemTemplate="{StaticResource DriverListView_Expanded_DefaultItemTemplate}" Grid.ColumnSpan="2" Margin="63,0,0,0">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" Spacing="50"/>
@@ -142,6 +141,45 @@
             </ListView>
             <Button x:Name="Button_CloseDrivers" Grid.Column="2" Background="Red" Content="X" VerticalAlignment="Bottom" HorizontalAlignment="Right"
                     Click="Button_CloseDrivers_Click"/>
+        </Grid>
+        <Grid x:Name="driverIdsffdsStats" VerticalAlignment="Top" HorizontalAlignment="Right" Width="216" Height="200">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <ProgressBar Grid.Row="0" x:Name="driverIgoStatsMoney" Value ="50" Background="Red" Foreground="LightGreen"
+                            HorizontalAlignment="Center" Height="20"/>
+            <ProgressBar Grid.Row="1" x:Name="driverfgdInfoStatsSpeed" Value ="50" Background="Red" Foreground="LightGreen"
+                            HorizontalAlignment="Center" Height="20"/>
+            <ProgressBar Grid.Row="2" x:Name="driverdfgfoStatsCapacity" Value ="50" Background="Red" Foreground="LightGreen"
+                            HorizontalAlignment="Center" Height="20"/>
+            <ProgressBar Grid.Row="3" x:Name="drifdgoStatsHappiness" Value ="50" Background="Red" Foreground="LightGreen"
+                            HorizontalAlignment="Center" Height="20"/>
+        </Grid>
+        <Grid x:Name="Grid_DriverInfo" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+              Width="451" Height="554" Background="LightBlue" RenderTransformOrigin="0.499,0.643">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+            <Image x:Name="driverInfoImg" Grid.Row="0" Source="Assets/LargeTile.scale-400.png"/>
+            <TextBlock x:Name="driverInfoDescription" Grid.Row="1" Text="PIZZY ESTA AQUI" HorizontalAlignment="Center"/>
+            <Grid x:Name="driverInfoStats" Grid.Row="2" Margin="0,0,0,46">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <ProgressBar HorizontalAlignment="Center" Height="10" Grid.Row="0" Width="100" Value ="50" Background="Red" Foreground="LightGreen"/>
+                <ProgressBar HorizontalAlignment="Center" Height="10" Grid.Row="1" Width="100" Value ="50" Background="Red" Foreground="LightGreen"/>
+                <ProgressBar HorizontalAlignment="Center" Height="10" Grid.Row="2" Width="100" Value ="50" Background="Red" Foreground="LightGreen"/>
+                <ProgressBar HorizontalAlignment="Center" Height="10" Grid.Row="3" Width="100" Value ="50" Background="Red" Foreground="LightGreen"/>
+
+            </Grid>
         </Grid>
     </Grid>
 </Page>
