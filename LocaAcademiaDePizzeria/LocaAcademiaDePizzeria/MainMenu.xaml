@@ -1,0 +1,24 @@
+﻿<Page
+    x:Class="LocaAcademiaDePizzeria.MainMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LocaAcademiaDePizzeria"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Image
+            Source="Assets/MapSoria.png"
+            Stretch="Fill">
+        </Image>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Background="#bdd7eeff" Margin="10">
+            <TextBlock Text="LOCA ACADEMIA DE PIZZERIA" FontSize="50"></TextBlock>
+        </StackPanel>
+
+        <Button x:Name="PizzaTimeButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="180" Height="100" Background="#D3D3D3">
+            <TextBlock x:Name="PizzaTimeButtonText" Text="Not pizza time (yet)" Height="20" VerticalAlignment="Bottom"></TextBlock>
+        </Button>
+    </Grid>
+</Page>
