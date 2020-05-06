@@ -65,10 +65,6 @@
                          MapServiceToken="3F9n0LcGV1wSH3iIU89U~BwTbE03iRdHjskVJ_rPB5Q~AuNQu5A2wnQJDEEiczijHmsZDJOxjSF-_a--KOaTCWvf26nhdG0PrJmIHUiPIqrU"
                          TrafficFlowVisible="True">
         </maps:MapControl>
-        <!--<Image
-            Source="Assets/SoriaMap.png"
-            Stretch="Fill">
-        </Image>-->
         <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Width="165" Height="80" Background="LightBlue" Opacity="50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
@@ -79,10 +75,6 @@
         </Grid>
         <Button Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="114" Width="209" Padding="0" BorderThickness="0">
             <Image Source="Assets/PizzaTimeButton.png" Stretch="Fill"/>
-            <!--AQUI TENDRIA QUE IR EL ICONO DEL PIZZATIME-->
-            <!--<StackPanel>
-                <Image Source="Assets/Samples/1.png"/>
-            </StackPanel>-->
         </Button>
         <Grid x:Name="Grid_collapsedDrivers" 
             HorizontalAlignment="Left" VerticalAlignment="Bottom"
@@ -98,15 +90,12 @@
                 ItemTemplate="{StaticResource DriverListView_Collapsed_DefaultItemTemplate}" Margin="0,0,10,0"/>
             <Button x:Name="OpenDriversButton" Grid.Row="1" Click="OpenDriversButton_Click" Padding="0" BorderThickness="0">
                 <Image Source="/Assets/BotonMenuRepartidor.png" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill"/>
-                <!--AQUI TENDRIA QUE IR EL ICONO DEL PIZZATIME-->
-                <!--<StackPanel>
-                <Image/>
-            </StackPanel>-->
             </Button>
         </Grid>
         <Button x:Name="Button_OpenAbilitiesGrid"
-            Content="BRUM BRUM DRON" VerticalAlignment="Top" HorizontalAlignment="Left" Height="118" Width="124"
-               Click="Button_OpenAbilitiesGrid_Click" >
+            VerticalAlignment="Top" HorizontalAlignment="Left" Height="118" Width="124"
+               Click="Button_OpenAbilitiesGrid_Click" Padding="0" BorderThickness="0">
+            <Image Source="Assets/BotonMenuDron.png" Stretch="Fill"/>
         </Button>
         <Grid x:Name="Grid_expandedAbility" 
             HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -136,7 +125,7 @@
             HorizontalAlignment="Left" VerticalAlignment="Bottom"
               Width="884" Height="266" Background="LightBlue">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="125px" />
+                <!--<ColumnDefinition Width="125px" />-->
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="55px" />
             </Grid.ColumnDefinitions>
@@ -145,7 +134,7 @@
                  ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.VerticalScrollMode="Disabled"
                 x:Name="expandedDrivers"
                 ItemsSource="{x:Bind DriverList, Mode=OneWay}"
-                ItemTemplate="{StaticResource DriverListView_Expanded_DefaultItemTemplate}" Grid.ColumnSpan="2" Margin="63,0,0,0">
+                ItemTemplate="{StaticResource DriverListView_Expanded_DefaultItemTemplate}" Grid.Column="0" Margin="5,0,0,0">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" Spacing="50"/>

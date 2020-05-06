@@ -142,6 +142,7 @@
     <Content Include="Assets\Abilities\PizzaAbility.png" />
     <Content Include="Assets\Abilities\SoundAbility.png" />
     <Content Include="Assets\Abilities\TurboAbility.png" />
+    <Content Include="Assets\BotonMenuDron.png" />
     <Content Include="Assets\BotonMenuRepartidor.png" />
     <Content Include="Assets\Icon.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
