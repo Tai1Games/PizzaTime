@@ -4,10 +4,12 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
@@ -49,6 +51,14 @@ namespace LocaAcademiaDePizzeria
                 }
             CloseAbilties();
             CloseDrivers();
+
+            BasicGeoposition soriaPosition;
+            soriaPosition.Latitude = 41.764609;
+            soriaPosition.Longitude = -2.472443;
+            soriaPosition.Altitude = 2000;
+
+            mapaSoria.Center = new Geopoint(soriaPosition);
+            mapaSoria.ZoomLevel = 15;
 
             base.OnNavigatedTo(e);
         }

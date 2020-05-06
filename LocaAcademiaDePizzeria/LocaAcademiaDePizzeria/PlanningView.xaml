@@ -5,6 +5,7 @@
     xmlns:local="using:LocaAcademiaDePizzeria"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -60,12 +61,24 @@
         </DataTemplate>
     </Page.Resources>
     <Grid>
-        <Image
+        <maps:MapControl x:Name="mapaSoria" 
+                         MapServiceToken="3F9n0LcGV1wSH3iIU89U~BwTbE03iRdHjskVJ_rPB5Q~AuNQu5A2wnQJDEEiczijHmsZDJOxjSF-_a--KOaTCWvf26nhdG0PrJmIHUiPIqrU"
+                         TrafficFlowVisible="True">
+        </maps:MapControl>
+        <!--<Image
             Source="Assets/SoriaMap.png"
             Stretch="Fill">
-        </Image>
-        <Button Content="PIZZA TIME" Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="68" Width="124"
-                Background="LightGreen">
+        </Image>-->
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Width="165" Height="80" Background="LightBlue" Opacity="50">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" x:Name="moneyText" Text="300" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="60"/>
+            <Image Grid.Column="1" Source="Assets/Tayuno.png" HorizontalAlignment="Center" Margin="5,10,5,5"/>
+        </Grid>
+        <Button Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="114" Width="209" Padding="0" BorderThickness="0">
+            <Image Source="Assets/PizzaTimeButton.png" Stretch="Fill"/>
             <!--AQUI TENDRIA QUE IR EL ICONO DEL PIZZATIME-->
             <!--<StackPanel>
                 <Image Source="Assets/Samples/1.png"/>
@@ -73,7 +86,7 @@
         </Button>
         <Grid x:Name="Grid_collapsedDrivers" 
             HorizontalAlignment="Left" VerticalAlignment="Bottom"
-              Width="200px" Height="700px">
+              Width="130" Height="454">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*" />
                 <RowDefinition Height="1*" />
@@ -83,8 +96,8 @@
                 x:Name="collapsedDrivers"
                 ItemsSource="{x:Bind DriverList, Mode=OneWay}"
                 ItemTemplate="{StaticResource DriverListView_Collapsed_DefaultItemTemplate}" Margin="0,0,10,0"/>
-            <Button x:Name="OpenDriversButton" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Click="OpenDriversButton_Click">
-                <Image Source="/Assets/BotonMenuRepartidor.png" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+            <Button x:Name="OpenDriversButton" Grid.Row="1" Click="OpenDriversButton_Click" Padding="0" BorderThickness="0">
+                <Image Source="/Assets/BotonMenuRepartidor.png" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill"/>
                 <!--AQUI TENDRIA QUE IR EL ICONO DEL PIZZATIME-->
                 <!--<StackPanel>
                 <Image/>
@@ -97,7 +110,7 @@
         </Button>
         <Grid x:Name="Grid_expandedAbility" 
             HorizontalAlignment="Left" VerticalAlignment="Top"
-              Width="1255" Height="200px" Background="LightBlue">
+              Width="1059" Height="168" Background="LightBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="125px" />
                 <ColumnDefinition Width="1*" />
@@ -121,7 +134,7 @@
         </Grid>
         <Grid x:Name="Grid_expandedDrivers" 
             HorizontalAlignment="Left" VerticalAlignment="Bottom"
-              Width="1000" Height="300px" Background="LightBlue">
+              Width="884" Height="266" Background="LightBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="125px" />
                 <ColumnDefinition Width="1*" />
@@ -159,7 +172,7 @@
                             HorizontalAlignment="Center" Height="20"/>
         </Grid>
         <Grid x:Name="Grid_DriverInfo" VerticalAlignment="Bottom" HorizontalAlignment="Right"
-              Width="451" Height="554" Background="LightBlue" RenderTransformOrigin="0.499,0.643">
+              Width="342" Height="420" Background="LightBlue" RenderTransformOrigin="0.499,0.643">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="1*"/>
