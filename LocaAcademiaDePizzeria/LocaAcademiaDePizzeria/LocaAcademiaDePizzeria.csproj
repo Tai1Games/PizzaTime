@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="AbilityModel.cs" />
     <Compile Include="AbilityViewModel.cs" />
+    <Compile Include="AbilitiesModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -131,6 +132,9 @@
     </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManualView.xaml.cs">
+      <DependentUpon>ManualView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -219,6 +223,15 @@
     <Content Include="Assets\MapSoria.PNG" />
     <Content Include="Assets\PizzeriaSelected.png" />
     <Content Include="Assets\PizzeriaUnselected.png" />
+    <Content Include="Assets\ManualView\Bike.png" />
+    <Content Include="Assets\ManualView\Button.png" />
+    <Content Include="Assets\ManualView\Danger.png" />
+    <Content Include="Assets\ManualView\Dron.png" />
+    <Content Include="Assets\ManualView\Joystick.png" />
+    <Content Include="Assets\ManualView\JoystickBorder.png" />
+    <Content Include="Assets\ManualView\Request.png" />
+    <Content Include="Assets\ManualView\StreetView.jpg" />
+    <Content Include="Assets\ManualView\VisionCone.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -243,6 +256,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ManualView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

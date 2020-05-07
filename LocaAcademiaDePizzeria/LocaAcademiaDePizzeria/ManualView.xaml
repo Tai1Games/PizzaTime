@@ -1,0 +1,65 @@
+﻿<Page
+    x:Class="LocaAcademiaDePizzeria.ManualView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LocaAcademiaDePizzeria"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="6*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Image Source="assets/ManualView/StreetView.jpg" 
+               Grid.RowSpan="2"
+               Grid.ColumnSpan="3"
+               Stretch="UniformToFill"
+               PointerPressed="StreetCanvas_PointerPressed"
+               PointerMoved="StreetCanvas_PointerMoved"
+               PointerReleased="StreetCanvas_PointerReleased"
+               />
+        <Border Background="Black" Grid.ColumnSpan="3" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0">
+            <TextBlock x:Name="Timer" Text="19:30:00" FontWeight="Bold" Foreground="White" FontFamily="Arial" FontSize="50px"/>
+        </Border>
+
+        <maps:MapControl x:Name="mapaSoria"
+                         Margin="50,50,0,0"
+                         PointerReleased="StreetCanvas_PointerReleased"
+                         PointerMoved="StreetCanvas_PointerMoved"
+                         MapServiceToken="3F9n0LcGV1wSH3iIU89U~BwTbE03iRdHjskVJ_rPB5Q~AuNQu5A2wnQJDEEiczijHmsZDJOxjSF-_a--KOaTCWvf26nhdG0PrJmIHUiPIqrU"
+                         TrafficFlowVisible="True"/>
+        <ListView x:Name="AbilityList" ItemsSource="{x:Bind abilities}" Grid.Row="1" ItemClick="AbilityList_ItemClick" IsItemClickEnabled="True"
+                  PointerReleased="StreetCanvas_PointerReleased" PointerMoved="StreetCanvas_PointerMoved"
+                  Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:Ability">
+                    <Grid>
+                        <Image Source="{x:Bind ButtonImage}" 
+                               Opacity="{x:Bind Opacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Image Source="{x:Bind Image}" 
+                               Opacity="{x:Bind Opacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Canvas x:Name="StreetCanvas"
+                PointerPressed="StreetCanvas_PointerPressed"
+                PointerMoved="StreetCanvas_PointerMoved"
+                PointerReleased="StreetCanvas_PointerReleased"
+                >
+            <Image x:Name="JoystickBorder" Source="assets/ManualView/JoystickBorder.png" Height="200px" Opacity="0.5" Visibility="Collapsed"/>
+            <Image x:Name="Joystick" Source="assets/ManualView/JoyStick.png" Height="100px" Opacity="0.5" Visibility="Collapsed"/>
+        </Canvas>
+    </Grid>
+</Page>
