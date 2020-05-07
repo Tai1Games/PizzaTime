@@ -107,7 +107,7 @@ namespace LocaAcademiaDePizzeria
         private void dispatcherTimer_Tick(object sender, object e)
         {
             dateTimer = dateTimer.AddSeconds(1);
-            Timer.Text = dateTimer.Hour.ToString() + ":" + dateTimer.Minute.ToString() + ":" + dateTimer.Second.ToString("D2");
+            Timer.Text = dateTimer.Hour.ToString("D2") + ":" + dateTimer.Minute.ToString("D2") + ":" + dateTimer.Second.ToString("D2");
         }
 
         private void AbilityList_ItemClick(object sender, ItemClickEventArgs e)
