@@ -13,6 +13,11 @@
             <Color x:Key="InteractableColor">#008000</Color>
         </ResourceDictionary>
     </Page.Resources>-->
+
+    <Page.Resources>
+        <SolidColorBrush x:Key="unInteractableColor" Color="Gray"></SolidColorBrush>
+        <SolidColorBrush x:Key="InteractableColor" Color="Green"></SolidColorBrush>
+    </Page.Resources>
     
     <Grid>
         <Image
@@ -22,17 +27,19 @@
         <Canvas>
             <Button Width="50" Height="70" Canvas.Left="1000" Canvas.Top="600" BorderThickness="0" Background="#00000000" Click="OnPizzeriaSelected">
                 <StackPanel >
-                    <Image  Source="Assets/PizzeriaUnselected.png" Stretch="Fill"/>
+                    <Image Source="Assets/PizzeriaUnselected.png" Stretch="Fill"/>
                 </StackPanel>
             </Button>
             <Button Width="50" Height="70" Canvas.Left="750" Canvas.Top="800" BorderThickness="0" Background="#00000000" Click="OnPizzeriaSelected">
-                <StackPanel >
-                    <Image  Source="Assets/PizzeriaUnselected.png" Stretch="Fill"/>
-                </StackPanel>            </Button>
+                <StackPanel>
+                    <Image Source="Assets/PizzeriaUnselected.png" Stretch="Fill"/>
+                </StackPanel>            
+            </Button>
             <Button Width="50" Height="70" Canvas.Left="300" Canvas.Top="350" BorderThickness="0" Background="#00000000" Click="OnPizzeriaSelected">
-                <StackPanel >
-                    <Image  Source="Assets/PizzeriaUnselected.png" Stretch="Fill"/>
-                </StackPanel>            </Button>
+                <StackPanel>
+                    <Image Source="Assets/PizzeriaUnselected.png" Stretch="Fill"/>
+                </StackPanel>            
+            </Button>
         </Canvas>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Background="#bdd7eeff" Margin="10">
             <TextBlock Text="LOCA ACADEMIA DE PIZZERIA" FontSize="50"></TextBlock>
