@@ -106,5 +106,10 @@ namespace LocaAcademiaDePizzeria
         {
             OpenDrivers();
         }
+
+        private void PizzaTime_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(ManualView));
+        }
     }
 }

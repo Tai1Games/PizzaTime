@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +11,8 @@ namespace LocaAcademiaDePizzeria
     public class Ability
     {
         public string Image;
-        public string ButtonImage = "assets/ManualView/Button.png";
-        public double Opacity = 1;
+        
+        
     }
 
     public class AbilitiesModel
@@ -42,4 +42,4 @@ namespace LocaAcademiaDePizzeria
         };
 
     }
-}
+}*/

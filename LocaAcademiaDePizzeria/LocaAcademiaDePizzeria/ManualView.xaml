@@ -47,7 +47,7 @@
                     <Grid>
                         <Image Source="{x:Bind ButtonImage}" 
                                Opacity="{x:Bind Opacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Image Source="{x:Bind Image}" 
+                        <Image Source="{x:Bind imgSource}" 
                                Opacity="{x:Bind Opacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                 </DataTemplate>

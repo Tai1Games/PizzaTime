@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace LocaAcademiaDePizzeria
 {
@@ -18,6 +20,10 @@ namespace LocaAcademiaDePizzeria
         public string imgSource { get; set; }
 
         public Ability() { }
+
+        public string ButtonImage = "assets/ManualView/Button.png";
+
+        public double Opacity = 1;
 
     }
 

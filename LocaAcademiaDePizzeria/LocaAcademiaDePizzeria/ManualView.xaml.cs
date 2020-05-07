@@ -54,7 +54,7 @@ namespace LocaAcademiaDePizzeria
 
             // Carga la lista de ModelView a partir de la lista de Modelo
             if (abilities != null)
-                foreach (Ability ability in AbilitiesModel.abilities)
+                foreach (Ability ability in AbilityModel.GetAllAbilities())
                 {
                     abilities.Add(ability);
                 }

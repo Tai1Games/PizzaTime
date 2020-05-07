@@ -12,7 +12,7 @@
     <Page.Resources>
         <DataTemplate x:Key="DriverListView_Collapsed_DefaultItemTemplate"
                       x:DataType="local:DriverViewModel">
-            <Grid RowSpacing="5px" Margin="0,0,0,5">
+            <Grid RowSpacing="5" Margin="0,0,0,5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height ="3*"/>
                     <RowDefinition Height="1*"/>
@@ -73,7 +73,8 @@
             <TextBlock Grid.Column="0" x:Name="moneyText" Text="300" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="60"/>
             <Image Grid.Column="1" Source="Assets/Tayuno.png" HorizontalAlignment="Center" Margin="5,10,5,5"/>
         </Grid>
-        <Button Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="114" Width="209" Padding="0" BorderThickness="0">
+        <Button Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="114" 
+                Width="209" Padding="0" BorderThickness="0" Click="PizzaTime_Click">
             <Image Source="Assets/PizzaTimeButton.png" Stretch="Fill"/>
         </Button>
         <Grid x:Name="Grid_collapsedDrivers" 
