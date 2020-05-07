@@ -5,23 +5,78 @@
     xmlns:local="using:LocaAcademiaDePizzeria"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Image Source="assets/StreetView.jpg" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="6*"/>
+            
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="1.2*"/>
+        </Grid.ColumnDefinitions>
+
+        <Image Source="assets/ManualView/StreetView.jpg" 
+               Grid.RowSpan="2"
+               Grid.ColumnSpan="3"
                Stretch="UniformToFill"
                PointerPressed="StreetCanvas_PointerPressed"
                PointerMoved="StreetCanvas_PointerMoved"
                PointerReleased="StreetCanvas_PointerReleased"
                />
+        <maps:MapControl x:Name="mapaSoria"
+                         Margin="20,20,0,0"
+                         PointerReleased="StreetCanvas_PointerReleased"
+                         PointerMoved="StreetCanvas_PointerMoved"
+                         MapServiceToken="3F9n0LcGV1wSH3iIU89U~BwTbE03iRdHjskVJ_rPB5Q~AuNQu5A2wnQJDEEiczijHmsZDJOxjSF-_a--KOaTCWvf26nhdG0PrJmIHUiPIqrU"
+                         TrafficFlowVisible="True">
+        </maps:MapControl>
+        <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
+            <Image Source="assets/ManualView/Button.png" 
+                   PointerPressed="Image_PointerPressed"                
+                   Margin="0,10,0,10"
+               />
+            <Image Source="assets/ManualView/Button.png" 
+                   PointerPressed="Image_PointerPressed"
+                   Margin="0,10,0,10"
+               />
+            <Image Source="assets/ManualView/Button.png" 
+                   PointerPressed="Image_PointerPressed"          
+                   Margin="0,10,0,10"
+               />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
+            <Image Source="assets/Abilities/AimAbiolity.png" 
+               PointerPressed="Image_PointerPressed"
+                   PointerReleased="StreetCanvas_PointerReleased"
+                   PointerMoved="StreetCanvas_PointerMoved"
+                   Margin="0,5,0,5"
+               />
+            <Image Source="assets/Abilities/EyeAbility.png" 
+               PointerPressed="Image_PointerPressed"
+                   PointerReleased="StreetCanvas_PointerReleased"
+                   PointerMoved="StreetCanvas_PointerMoved"
+                   Margin="0,5,0,5"
+               />
+            <Image Source="assets/Abilities/PizzaAbility.png" 
+               PointerPressed="Image_PointerPressed"
+                   PointerReleased="StreetCanvas_PointerReleased"
+                   PointerMoved="StreetCanvas_PointerMoved"
+                   Margin="0,5,0,5"
+               />
+        </StackPanel>
         <Canvas x:Name="StreetCanvas"
                 PointerPressed="StreetCanvas_PointerPressed"
                 PointerMoved="StreetCanvas_PointerMoved"
                 PointerReleased="StreetCanvas_PointerReleased"
                 >
-            <Image x:Name="JoystickBorder" Source="assets/JoystickBorder.png" Height="200px" Opacity="0.5" Visibility="Collapsed"/>
-            <Image x:Name="Joystick" Source="assets/JoyStick.png" Height="100px" Opacity="0.5" Visibility="Collapsed"/>
+            <Image x:Name="JoystickBorder" Source="assets/ManualView/JoystickBorder.png" Height="200px" Opacity="0.5" Visibility="Collapsed"/>
+            <Image x:Name="Joystick" Source="assets/ManualView/JoyStick.png" Height="100px" Opacity="0.5" Visibility="Collapsed"/>
         </Canvas>
     </Grid>
 </Page>

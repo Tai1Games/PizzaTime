@@ -133,9 +133,20 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Joystick.png" />
-    <Content Include="Assets\JoystickBorder.png" />
-    <Content Include="Assets\StreetView.jpg" />
+    <Content Include="Assets\Abilities\AimAbiolity.png" />
+    <Content Include="Assets\Abilities\EyeAbility.png" />
+    <Content Include="Assets\Abilities\PizzaAbility.png" />
+    <Content Include="Assets\Abilities\SoundAbility.png" />
+    <Content Include="Assets\Abilities\TurboAbility.png" />
+    <Content Include="Assets\ManualView\Bike.png" />
+    <Content Include="Assets\ManualView\Button.png" />
+    <Content Include="Assets\ManualView\Danger.png" />
+    <Content Include="Assets\ManualView\Dron.png" />
+    <Content Include="Assets\ManualView\Joystick.png" />
+    <Content Include="Assets\ManualView\JoystickBorder.png" />
+    <Content Include="Assets\ManualView\Request.png" />
+    <Content Include="Assets\ManualView\StreetView.jpg" />
+    <Content Include="Assets\ManualView\VisionCone.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

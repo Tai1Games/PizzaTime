@@ -9,6 +9,7 @@ using Windows.Foundation.Diagnostics;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
@@ -73,6 +74,12 @@ namespace LocaAcademiaDePizzeria
             JoystickBorder.Visibility = Visibility.Collapsed;
             Joystick.Visibility = Visibility.Collapsed;
             firstPoint = null;
+        }
+
+        private void Image_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            Image img = e.OriginalSource as Image;
+            img.Opacity = 0.5;
         }
     }
 }
