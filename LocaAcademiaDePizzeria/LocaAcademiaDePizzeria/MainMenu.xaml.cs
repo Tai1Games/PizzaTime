@@ -36,7 +36,7 @@ namespace LocaAcademiaDePizzeria
         {
             if (isPizzeriaSelected)
             {
-                //Go to planning menu.
+               this.Frame.Navigate(typeof(PlanningView));
             }
         }
 
