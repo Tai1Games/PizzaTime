@@ -23,11 +23,12 @@ namespace LocaAcademiaDePizzeria
     /// <summary>
     /// Una página vacía que se puede usar de forma independiente o a la que se puede navegar dentro de un objeto Frame.
     /// </summary>
-    /// 
+    ///
     public sealed partial class PlanningView : Page
     {
         public ObservableCollection<DriverViewModel> DriverList { get; } = new ObservableCollection<DriverViewModel>();
-        public ObservableCollection<AbilityViewModel> AbilityList { get; } = new ObservableCollection<AbilityViewModel>(); 
+        public ObservableCollection<AbilityViewModel> AbilityList { get; } = new ObservableCollection<AbilityViewModel>();
+
         public PlanningView()
         {
             this.InitializeComponent();
@@ -67,11 +68,14 @@ namespace LocaAcademiaDePizzeria
         {
             Button_OpenAbilitiesGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             Grid_expandedAbility.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            Grid_AbilityInfo.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
+
         private void CloseAbilties()
         {
             Button_OpenAbilitiesGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
             Grid_expandedAbility.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            Grid_AbilityInfo.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
         private void OpenDrivers()
@@ -80,6 +84,7 @@ namespace LocaAcademiaDePizzeria
             Grid_collapsedDrivers.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             Grid_DriverInfo.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
+
         private void CloseDrivers()
         {
             Grid_expandedDrivers.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -110,6 +115,28 @@ namespace LocaAcademiaDePizzeria
         private void PizzaTime_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(ManualView));
+        }
+
+        private void expandedDrivers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Grid_AbilityInfo.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            Grid_DriverInfo.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
+            DriverViewModel selected = e.AddedItems.First() as DriverViewModel;
+
+            driverInfoImg.Source = selected.img.Source;
+            driverInfoDescription.Text = selected.name;
+        }
+
+        private void expandedAbility_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Grid_AbilityInfo.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            Grid_DriverInfo.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
+            AbilityViewModel selected = e.AddedItems.First() as AbilityViewModel;
+
+            abilityInfoImg.Source = selected.img.Source;
+            abilityInfoDescription.Text = selected.description;
         }
     }
 }

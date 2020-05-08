@@ -16,15 +16,18 @@ namespace LocaAcademiaDePizzeria
         public int upgradeCost { get; set; }
 
         public string name { get; set; }
-      
+
         public string imgSource { get; set; }
 
-        public Ability() { }
+        public string description { get; set; }
+
+        public Ability()
+        {
+        }
 
         public string ButtonImage = "assets/ManualView/Button.png";
 
         public double Opacity = 1;
-
     }
 
     public class AbilityModel
@@ -38,6 +41,7 @@ namespace LocaAcademiaDePizzeria
                 name = "Aim",
                 upgradeCost=100,
                 imgSource = "Assets//Abilities//AimAbiolity.png",
+                description = "Te permite apuntar con una precision nunca antes conocida",
             },
             new Ability()
             {
@@ -46,7 +50,7 @@ namespace LocaAcademiaDePizzeria
                 upgradeCost=100,
                 name = "Eye",
                 imgSource = "Assets//Abilities//EyeAbility.png",
-
+                description = "Puedes localizar a los repartidores para evitarlos",
             },
             new Ability()
             {
@@ -55,6 +59,7 @@ namespace LocaAcademiaDePizzeria
                 upgradeCost=100,
                 name = "Pizza",
                 imgSource = "Assets//Abilities//PizzaAbility.png",
+                description = "Tira una pizza para crear una distraccion en la calle",
             },
             new Ability()
             {
@@ -62,8 +67,8 @@ namespace LocaAcademiaDePizzeria
                 actLevel= 4,
                 upgradeCost=100,
                 name = "Sound",
+                description = "Emite ultrasonidos para que la gente no se asome a las ventanas y te vea",
                 imgSource = "Assets//Abilities//SoundAbility.png",
-
             },
             new Ability()
             {
@@ -71,11 +76,14 @@ namespace LocaAcademiaDePizzeria
                 actLevel= 4,
                 upgradeCost=100,
                 name = "Turbo",
+                description = "Aumenta tu velocidad de forma increible",
                 imgSource = "Assets//Abilities//TurboAbility.png",
-
             }
         };
 
-        public static IList<Ability> GetAllAbilities() { return AbilityList; }
+        public static IList<Ability> GetAllAbilities()
+        {
+            return AbilityList;
+        }
     }
 }

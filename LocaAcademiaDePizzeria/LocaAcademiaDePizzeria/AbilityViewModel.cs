@@ -12,6 +12,7 @@ namespace LocaAcademiaDePizzeria
     public class AbilityViewModel : Ability
     {
         public Image img;
+
         public AbilityViewModel(Ability model)
         {
             img = new Image();
@@ -24,6 +25,7 @@ namespace LocaAcademiaDePizzeria
             imgSource = model.imgSource;
             name = model.name;
             upgradeCost = model.upgradeCost;
+            description = model.description;
         }
     }
 }
