@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -28,6 +29,8 @@ namespace LocaAcademiaDePizzeria
     {
         public ObservableCollection<DriverViewModel> DriverList { get; } = new ObservableCollection<DriverViewModel>();
         public ObservableCollection<AbilityViewModel> AbilityList { get; } = new ObservableCollection<AbilityViewModel>();
+
+        public int playerMoney = 400;
 
         public PlanningView()
         {
@@ -126,6 +129,17 @@ namespace LocaAcademiaDePizzeria
 
             driverInfoImg.Source = selected.img.Source;
             driverInfoDescription.Text = selected.name;
+            driverInfoMoneyBar.Value = selected.moneyRatio();
+            driverInfoMoneyTxt.Text = selected.moneyRatiostring();
+
+            driverInfoSpeedBar.Value = selected.speedRatio();
+            driverInfoSpeedTxt.Text = selected.speedRatiostring();
+
+            driverInfoCarryBar.Value = selected.carryRatio();
+            driverInfoCarryTxt.Text = selected.carryRatiostring();
+
+            driverInfoHappinessBar.Value = selected.happinessRatio();
+            driverInfoHappinessTxt.Text = selected.happinessRatiostring();
         }
 
         private void expandedAbility_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -137,6 +151,43 @@ namespace LocaAcademiaDePizzeria
 
             abilityInfoImg.Source = selected.img.Source;
             abilityInfoDescription.Text = selected.description;
+        }
+
+        private void AbilityButton_Click(object sender, RoutedEventArgs e)
+        {
+            AbilityViewModel selected = (AbilityViewModel)(sender as Button).DataContext;
+            if (selected.maxLevel > selected.actLevel && selected.upgradeCost <= playerMoney)
+            {
+                playerMoney -= selected.upgradeCost;
+                moneyText.Text = playerMoney.ToString();//no funciona el binding
+                selected.actLevel++;
+
+                //el binding de las barras no se actualiza asi que
+                Button p = e.OriginalSource as Button;
+                ProgressBar levelBar = FindVisualChild<ProgressBar>(p.Parent);
+                levelBar.Value = selected.getLevelBar();
+            }
+        }
+
+        //No podemos usar x:Name porque usamos listas de templates asi que tenemos que buscar
+        //https://stackoverflow.com/questions/19409947/how-to-get-the-children-of-a-uielement
+        public static T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        return (T)child;
+                    }
+
+                    T childItem = FindVisualChild<T>(child);
+                    if (childItem != null) return childItem;
+                }
+            }
+            return null;
         }
     }
 }

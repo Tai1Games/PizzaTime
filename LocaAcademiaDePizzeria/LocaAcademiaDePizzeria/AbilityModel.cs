@@ -47,7 +47,7 @@ namespace LocaAcademiaDePizzeria
             {
                 maxLevel =6,
                 actLevel= 4,
-                upgradeCost=100,
+                upgradeCost=200,
                 name = "Eye",
                 imgSource = "Assets//Abilities//EyeAbility.png",
                 description = "Puedes localizar a los repartidores para evitarlos",
@@ -56,7 +56,7 @@ namespace LocaAcademiaDePizzeria
             {
                 maxLevel =12,
                 actLevel= 0,
-                upgradeCost=100,
+                upgradeCost=150,
                 name = "Pizza",
                 imgSource = "Assets//Abilities//PizzaAbility.png",
                 description = "Tira una pizza para crear una distraccion en la calle",
@@ -74,7 +74,7 @@ namespace LocaAcademiaDePizzeria
             {
                 maxLevel =6,
                 actLevel= 4,
-                upgradeCost=100,
+                upgradeCost=75,
                 name = "Turbo",
                 description = "Aumenta tu velocidad de forma increible",
                 imgSource = "Assets//Abilities//TurboAbility.png",

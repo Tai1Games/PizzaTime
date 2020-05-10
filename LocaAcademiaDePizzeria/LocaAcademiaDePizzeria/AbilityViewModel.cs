@@ -13,6 +13,11 @@ namespace LocaAcademiaDePizzeria
     {
         public Image img;
 
+        public double getLevelBar()
+        {
+            return 100 * (double)actLevel / (double)maxLevel;
+        }
+
         public AbilityViewModel(Ability model)
         {
             img = new Image();
