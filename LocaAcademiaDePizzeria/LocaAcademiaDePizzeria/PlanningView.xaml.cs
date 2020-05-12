@@ -56,23 +56,24 @@ namespace LocaAcademiaDePizzeria
             CloseAbilties();
             CloseDrivers();
 
-            BasicGeoposition soriaPosition;
-            soriaPosition.Latitude = 41.764609;
-            soriaPosition.Longitude = -2.472443;
-            soriaPosition.Altitude = 2000;
 
-            mapaSoria.Center = new Geopoint(soriaPosition);
+            //Centrado del mapa sobre la posición de la pizzería
+            Geopoint pizzeriaPosition =  e.Parameter as Geopoint;
+            mapaSoria.Center = pizzeriaPosition;
             mapaSoria.ZoomLevel = 15;
 
-            Windows.UI.Xaml.Controls.Image image = new Image();
-            image.Source = new BitmapImage(new Uri("ms-appx:///Assets/Icon.png"));
+
+            //Creación de la imagen de la pizzería
+            Image image = new Image();
+            image.Source = new BitmapImage(new Uri("ms-appx:///Assets/Pizzeria.png"));
             image.Width = 50;
             image.Height = 50;
             mapaSoria.Children.Add(image);
-            MapControl.SetLocation(image, new Geopoint(soriaPosition));
+            MapControl.SetLocation(image, pizzeriaPosition);
             MapControl.SetNormalizedAnchorPoint(image, new Point(0.5, 0.5));
 
 
+            //Creación de imagen de prueba (para calcular ruta)
             BasicGeoposition soriaPosition2;
             soriaPosition2.Latitude = 41.768670;
             soriaPosition2.Longitude = -2.482230;
@@ -85,29 +86,30 @@ namespace LocaAcademiaDePizzeria
             MapControl.SetLocation(image2, new Geopoint(soriaPosition2));
             MapControl.SetNormalizedAnchorPoint(image2, new Point(0.5, 0.5));
 
+            //Creación de la ruta pizzería -> imagen de prueba
             MapRouteFinderResult routeResult =
             await MapRouteFinder.GetDrivingRouteAsync(
-            new Geopoint(soriaPosition),
+            pizzeriaPosition,
             new Geopoint(soriaPosition2),
             MapRouteOptimization.Distance,
             MapRouteRestrictions.None);
 
+            //Proceso de mostrar la ruta anterior en el mapa
             if (routeResult.Status == MapRouteFinderStatus.Success)
             {
-                // Use the route to initialize a MapRouteView.
+                // Inicializamos un MapRouteView
                 MapRouteView viewOfRoute = new MapRouteView(routeResult.Route);
-                viewOfRoute.RouteColor = Colors.BlueViolet;
+                viewOfRoute.RouteColor = Colors.Green;
                 viewOfRoute.OutlineColor = Colors.Black;
 
-                // Add the new MapRouteView to the Routes collection
-                // of the MapControl.
+                // Lo añadimos a la colección Routes del mapa
                 mapaSoria.Routes.Add(viewOfRoute);
 
-                // Fit the MapControl to the route.
-                await mapaSoria.TrySetViewBoundsAsync(
+                // Encajamos la ruta en la pantalla
+                /*await mapaSoria.TrySetViewBoundsAsync(
                       routeResult.Route.BoundingBox,
                       null,
-                      Windows.UI.Xaml.Controls.Maps.MapAnimationKind.None);
+                      Windows.UI.Xaml.Controls.Maps.MapAnimationKind.None);*/
             }
 
             base.OnNavigatedTo(e);

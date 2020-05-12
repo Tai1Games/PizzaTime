@@ -157,7 +157,11 @@
     <Content Include="Assets\LargeTile.scale-150.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
+    <Content Include="Assets\MainMenuButtonActive.png" />
+    <Content Include="Assets\MainMenuButtonInactive.png" />
     <Content Include="Assets\PizzaTimeButton.png" />
+    <Content Include="Assets\Pizzeria.png" />
+    <Content Include="Assets\PizzeriaUnselected.png" />
     <Content Include="Assets\Samples\1.jpg" />
     <Content Include="Assets\Samples\10.jpg" />
     <Content Include="Assets\Samples\11.jpg" />
@@ -222,7 +226,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\MapSoria.PNG" />
     <Content Include="Assets\PizzeriaSelected.png" />
-    <Content Include="Assets\PizzeriaUnselected.png" />
     <Content Include="Assets\ManualView\Bike.png" />
     <Content Include="Assets\ManualView\Button.png" />
     <Content Include="Assets\ManualView\Danger.png" />
@@ -246,7 +249,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="PlanningView.xaml">
-    <SubType>Designer</SubType>
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainMenu.xaml">
@@ -266,6 +269,9 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.9</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Icons\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
