@@ -50,8 +50,7 @@
             <TextBlock Text="LOCA ACADEMIA DE PIZZERIA" FontSize="50"></TextBlock>
         </StackPanel>
 
-        <Button x:Name="PizzaTimeButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="180" Height="93" Click="OnButtonClicked"
-                BorderThickness="0" Padding="0">
+        <Button Style="{StaticResource NextScreenButtonStyle}" x:Name="PizzaTimeButton" Click="OnButtonClicked">
             <Image Source="Assets/MainMenuButtonInactive.png"/>
         </Button>
     </Grid>
