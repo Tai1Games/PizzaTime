@@ -14,14 +14,14 @@
                       x:DataType="local:DriverViewModel">
             <Grid RowSpacing="5" Margin="0,0,0,5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height ="3*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height ="3*" />
+                    <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
                 <Image Source="{x:Bind imgSource}" Grid.Row="0"
                        VerticalAlignment="Center" HorizontalAlignment="Center"
-                       Stretch="UniformToFill" Margin="0,10,0,10"/>
-                <ProgressBar Grid.Row ="1" Value ="50" Background="Red" Foreground="LightGreen"
-                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="20"/>
+                       Stretch="UniformToFill" Margin="0,10,0,10" />
+                <ProgressBar Grid.Row ="1" Value ="{x:Bind carryCapacityBar()}" Background="Red" Foreground="LightGreen"
+                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="20" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="AbilityListView_Expanded_DefaultItemTemplate"
@@ -29,16 +29,16 @@
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center"
                   Margin="10,0,0,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height ="1*"/>
-                    <RowDefinition Height ="3*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height ="1*" />
+                    <RowDefinition Height ="3*" />
+                    <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
-                <Button Grid.Row="0" Content="{x:Bind upgradeCost}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Button Grid.Row="0" Content="{x:Bind upgradeCost}" VerticalAlignment="Center" HorizontalAlignment="Center" Click="AbilityButton_Click" />
                 <Image Source="{x:Bind imgSource}" Grid.Row="1"
                        VerticalAlignment="Center" HorizontalAlignment="Center"
-                       Stretch="UniformToFill" Margin="0,0,0,0"/>
-                <ProgressBar Grid.Row ="2" Value ="50" Background="Red" Foreground="LightGreen"
-                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="20"/>
+                       Stretch="UniformToFill" Margin="0,0,0,0" />
+                <ProgressBar Grid.Row ="2" Value ="{x:Bind getLevelBar()}" Background="Red" Foreground="LightGreen"
+                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="20" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="DriverListView_Expanded_DefaultItemTemplate"
@@ -46,38 +46,38 @@
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center"
                   Margin="10,0,0,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height ="2*"/>
-                    <RowDefinition Height ="3*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height ="2*" />
+                    <RowDefinition Height ="3*" />
+                    <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
-                <ProgressBar Grid.Row ="0" Value ="50" Background="Red" Foreground="LightGreen"
-                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="20"/>
+                <ProgressBar Grid.Row ="0" Value ="{x:Bind carryCapacityBar()}" Background="Red" Foreground="LightGreen"
+                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="20" />
                 <Image Source="{x:Bind imgSource}" Grid.Row="1"
                        VerticalAlignment="Center" HorizontalAlignment="Center"
-                       Stretch="UniformToFill" Margin="0,0,0,0"/>
+                       Stretch="UniformToFill" Margin="0,0,0,0" />
                 <TextBlock Grid.Row="2" Text="{x:Bind name}" HorizontalAlignment="Center" VerticalAlignment="Center"
-                           FontSize="20"/>
+                           FontSize="20" />
             </Grid>
         </DataTemplate>
     </Page.Resources>
     <Grid>
-        <maps:MapControl x:Name="mapaSoria" 
+        <maps:MapControl x:Name="mapaSoria"
                          MapServiceToken="3F9n0LcGV1wSH3iIU89U~BwTbE03iRdHjskVJ_rPB5Q~AuNQu5A2wnQJDEEiczijHmsZDJOxjSF-_a--KOaTCWvf26nhdG0PrJmIHUiPIqrU"
                          TrafficFlowVisible="True">
         </maps:MapControl>
         <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Width="165" Height="80" Background="LightBlue" Opacity="50">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" x:Name="moneyText" Text="300" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="60"/>
-            <Image Grid.Column="1" Source="Assets/Tayuno.png" HorizontalAlignment="Center" Margin="5,10,5,5"/>
+            <TextBlock Grid.Column="0" x:Name="moneyText" Text="{x:Bind playerMoney}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="60" />
+            <Image Grid.Column="1" Source="Assets/Tayuno.png" HorizontalAlignment="Center" Margin="5,10,5,5" />
         </Grid>
-        <Button Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="114" 
+        <Button Margin="0,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="114"
                 Width="209" Padding="0" BorderThickness="0" Click="PizzaTime_Click">
-            <Image Source="Assets/PizzaTimeButton.png" Stretch="Fill"/>
+            <Image Source="Assets/PizzaTimeButton.png" Stretch="Fill" />
         </Button>
-        <Grid x:Name="Grid_collapsedDrivers" 
+        <Grid x:Name="Grid_collapsedDrivers"
             HorizontalAlignment="Left" VerticalAlignment="Bottom"
               Width="130" Height="454">
             <Grid.RowDefinitions>
@@ -88,17 +88,17 @@
                 Grid.Row="0"
                 x:Name="collapsedDrivers"
                 ItemsSource="{x:Bind DriverList, Mode=OneWay}"
-                ItemTemplate="{StaticResource DriverListView_Collapsed_DefaultItemTemplate}" Margin="0,0,10,0"/>
+                ItemTemplate="{StaticResource DriverListView_Collapsed_DefaultItemTemplate}" Margin="0,0,10,0" />
             <Button x:Name="OpenDriversButton" Grid.Row="1" Click="OpenDriversButton_Click" Padding="0" BorderThickness="0">
-                <Image Source="/Assets/BotonMenuRepartidor.png" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill"/>
+                <Image Source="/Assets/BotonMenuRepartidor.png" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill" />
             </Button>
         </Grid>
         <Button x:Name="Button_OpenAbilitiesGrid"
             VerticalAlignment="Top" HorizontalAlignment="Left" Height="118" Width="124"
                Click="Button_OpenAbilitiesGrid_Click" Padding="0" BorderThickness="0">
-            <Image Source="Assets/BotonMenuDron.png" Stretch="Fill"/>
+            <Image Source="Assets/BotonMenuDron.png" Stretch="Fill" />
         </Button>
-        <Grid x:Name="Grid_expandedAbility" 
+        <Grid x:Name="Grid_expandedAbility"
             HorizontalAlignment="Left" VerticalAlignment="Top"
               Width="1059" Height="168" Background="LightBlue">
             <Grid.ColumnDefinitions>
@@ -108,21 +108,23 @@
             </Grid.ColumnDefinitions>
             <ListView VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                 ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.VerticalScrollMode="Disabled"      
+                 ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.VerticalScrollMode="Disabled"
                 Grid.Column ="1"
                 x:Name="expandedAbility"
                 ItemsSource="{x:Bind AbilityList, Mode=OneWay}"
-                ItemTemplate="{StaticResource AbilityListView_Expanded_DefaultItemTemplate}">
+                ItemTemplate="{StaticResource AbilityListView_Expanded_DefaultItemTemplate}"
+                      SelectionMode="Single"
+                      SelectionChanged="expandedAbility_SelectionChanged">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" Spacing="50"/>
+                        <StackPanel Orientation="Horizontal" Spacing="50" />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
             <Button x:Name="Button_CloseAbilites" Grid.Column="2" Background="Red" Content="X" VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                    Click="Button_CloseAbilites_Click"/>
+                    Click="Button_CloseAbilites_Click" />
         </Grid>
-        <Grid x:Name="Grid_expandedDrivers" 
+        <Grid x:Name="Grid_expandedDrivers"
             HorizontalAlignment="Left" VerticalAlignment="Bottom"
               Width="884" Height="266" Background="LightBlue">
             <Grid.ColumnDefinitions>
@@ -135,54 +137,56 @@
                  ScrollViewer.HorizontalScrollMode="Enabled" ScrollViewer.VerticalScrollMode="Disabled"
                 x:Name="expandedDrivers"
                 ItemsSource="{x:Bind DriverList, Mode=OneWay}"
-                ItemTemplate="{StaticResource DriverListView_Expanded_DefaultItemTemplate}" Grid.Column="0" Margin="5,0,0,0">
+                ItemTemplate="{StaticResource DriverListView_Expanded_DefaultItemTemplate}" Grid.Column="0" Margin="5,0,0,0"
+                SelectionMode="Single"
+                SelectionChanged="expandedDrivers_SelectionChanged">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" Spacing="50"/>
+                        <StackPanel Orientation="Horizontal" Spacing="50" />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
             <Button x:Name="Button_CloseDrivers" Grid.Column="2" Background="Red" Content="X" VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                    Click="Button_CloseDrivers_Click"/>
-        </Grid>
-        <Grid x:Name="driverIdsffdsStats" VerticalAlignment="Top" HorizontalAlignment="Right" Width="216" Height="200">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <ProgressBar Grid.Row="0" x:Name="driverIgoStatsMoney" Value ="50" Background="Red" Foreground="LightGreen"
-                            HorizontalAlignment="Center" Height="20"/>
-            <ProgressBar Grid.Row="1" x:Name="driverfgdInfoStatsSpeed" Value ="50" Background="Red" Foreground="LightGreen"
-                            HorizontalAlignment="Center" Height="20"/>
-            <ProgressBar Grid.Row="2" x:Name="driverdfgfoStatsCapacity" Value ="50" Background="Red" Foreground="LightGreen"
-                            HorizontalAlignment="Center" Height="20"/>
-            <ProgressBar Grid.Row="3" x:Name="drifdgoStatsHappiness" Value ="50" Background="Red" Foreground="LightGreen"
-                            HorizontalAlignment="Center" Height="20"/>
+                    Click="Button_CloseDrivers_Click" />
         </Grid>
         <Grid x:Name="Grid_DriverInfo" VerticalAlignment="Bottom" HorizontalAlignment="Right"
               Width="342" Height="420" Background="LightBlue" RenderTransformOrigin="0.499,0.643">
             <Grid.RowDefinitions>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="4*"/>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="4*" />
             </Grid.RowDefinitions>
-            <Image x:Name="driverInfoImg" Grid.Row="0" Source="Assets/LargeTile.scale-400.png"/>
-            <TextBlock x:Name="driverInfoDescription" Grid.Row="1" Text="PIZZY ESTA AQUI" HorizontalAlignment="Center"/>
+            <Image x:Name="driverInfoImg" Grid.Row="0" Source="Assets/LargeTile.scale-400.png" />
+            <TextBlock x:Name="driverInfoDescription" Grid.Row="1" Text="PIZZY ESTA AQUI" HorizontalAlignment="Center" />
             <Grid x:Name="driverInfoStats" Grid.Row="2" Margin="0,0,0,46">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
-                <ProgressBar HorizontalAlignment="Center" Height="10" Grid.Row="0" Width="100" Value ="50" Background="Red" Foreground="LightGreen"/>
-                <ProgressBar HorizontalAlignment="Center" Height="10" Grid.Row="1" Width="100" Value ="50" Background="Red" Foreground="LightGreen"/>
-                <ProgressBar HorizontalAlignment="Center" Height="10" Grid.Row="2" Width="100" Value ="50" Background="Red" Foreground="LightGreen"/>
-                <ProgressBar HorizontalAlignment="Center" Height="10" Grid.Row="3" Width="100" Value ="50" Background="Red" Foreground="LightGreen"/>
+                <ProgressBar  x:Name="driverInfoMoneyBar" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Grid.Row="0" Width="200" Value ="50" Background="Red" Foreground="LightGreen" />
+                <TextBlock x:Name="driverInfoMoneyTxt" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Text="" FontSize="15" />
 
+                <ProgressBar  x:Name="driverInfoSpeedBar" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Grid.Row="1" Width="200" Value ="50" Background="Red" Foreground="LightGreen" />
+                <TextBlock x:Name="driverInfoSpeedTxt" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Text="" FontSize="15" />
+
+                <ProgressBar  x:Name="driverInfoCarryBar" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Grid.Row="2" Width="200" Value ="50" Background="Red" Foreground="LightGreen" />
+                <TextBlock x:Name="driverInfoCarryTxt" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Text="" FontSize="15" />
+
+                <ProgressBar  x:Name="driverInfoHappinessBar" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Grid.Row="3" Width="200" Value ="50" Background="Red" Foreground="LightGreen" />
+                <TextBlock x:Name="driverInfoHappinessTxt" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3" Text="" FontSize="15" />
             </Grid>
+        </Grid>
+        <Grid x:Name="Grid_AbilityInfo" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+              Width="342" Height="420" Background="LightBlue" RenderTransformOrigin="0.499,0.643">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+            <Image x:Name="abilityInfoImg" Grid.Row="0" Source="Assets/LargeTile.scale-400.png" />
+            <TextBlock x:Name="abilityInfoDescription" Grid.Row="1" Text="PIZZY ESTA AQUI" HorizontalAlignment="Center"
+                       TextWrapping="WrapWholeWords" />
         </Grid>
     </Grid>
 </Page>

@@ -12,6 +12,12 @@ namespace LocaAcademiaDePizzeria
     public class AbilityViewModel : Ability
     {
         public Image img;
+
+        public double getLevelBar()
+        {
+            return 100 * (double)actLevel / (double)maxLevel;
+        }
+
         public AbilityViewModel(Ability model)
         {
             img = new Image();
@@ -24,6 +30,7 @@ namespace LocaAcademiaDePizzeria
             imgSource = model.imgSource;
             name = model.name;
             upgradeCost = model.upgradeCost;
+            description = model.description;
         }
     }
 }
