@@ -36,6 +36,12 @@ namespace LocaAcademiaDePizzeria
 
         public int playerMoney = 400;
 
+        public Random rnd = new Random();
+
+        public Geopoint[] requests = new Geopoint[5];
+
+        public Geopoint pizzeriaPosition; //pizzería
+
         public PlanningView()
         {
             this.InitializeComponent();
@@ -60,12 +66,10 @@ namespace LocaAcademiaDePizzeria
             CloseAbilties();
             CloseDrivers();
 
-
             //Centrado del mapa sobre la posición de la pizzería
-            Geopoint pizzeriaPosition =  e.Parameter as Geopoint;
+            pizzeriaPosition =  e.Parameter as Geopoint;
             mapaSoria.Center = pizzeriaPosition;
             mapaSoria.ZoomLevel = 15;
-
 
             //Creación de la imagen de la pizzería
             Image image = new Image();
@@ -76,47 +80,87 @@ namespace LocaAcademiaDePizzeria
             MapControl.SetLocation(image, pizzeriaPosition);
             MapControl.SetNormalizedAnchorPoint(image, new Point(0.5, 0.5));
 
+            CreateRequests();
 
-            //Creación de imagen de prueba (para calcular ruta)
-            BasicGeoposition soriaPosition2;
-            soriaPosition2.Latitude = 41.768670;
-            soriaPosition2.Longitude = -2.482230;
-            soriaPosition2.Altitude = 2000;
-            Windows.UI.Xaml.Controls.Image image2 = new Image();
-            image2.Source = new BitmapImage(new Uri("ms-appx:///Assets/Icon.png"));
-            image2.Width = 50;
-            image2.Height = 50;
-            mapaSoria.Children.Add(image2);
-            MapControl.SetLocation(image2, new Geopoint(soriaPosition2));
-            MapControl.SetNormalizedAnchorPoint(image2, new Point(0.5, 0.5));
+            ////Creación de imagen de prueba (para calcular ruta)
+            //BasicGeoposition soriaPosition2;
+            //soriaPosition2.Latitude = 41.768670;
+            //soriaPosition2.Longitude = -2.482230;
+            //soriaPosition2.Altitude = 2000;
+            //Windows.UI.Xaml.Controls.Image image2 = new Image();
+            //image2.Source = new BitmapImage(new Uri("ms-appx:///Assets/Icon.png"));
+            //image2.Width = 50;
+            //image2.Height = 50;
+            //mapaSoria.Children.Add(image2);
+            //MapControl.SetLocation(image2, new Geopoint(soriaPosition2));
+            //MapControl.SetNormalizedAnchorPoint(image2, new Point(0.5, 0.5));
 
-            //Creación de la ruta pizzería -> imagen de prueba
-            MapRouteFinderResult routeResult =
-            await MapRouteFinder.GetDrivingRouteAsync(
-            pizzeriaPosition,
-            new Geopoint(soriaPosition2),
-            MapRouteOptimization.Distance,
-            MapRouteRestrictions.None);
+            ////Creación de la ruta pizzería -> imagen de prueba
+            //MapRouteFinderResult routeResult =
+            //await MapRouteFinder.GetDrivingRouteAsync(
+            //pizzeriaPosition,
+            //new Geopoint(soriaPosition2),
+            //MapRouteOptimization.Distance,
+            //MapRouteRestrictions.None);
 
-            //Proceso de mostrar la ruta anterior en el mapa
-            if (routeResult.Status == MapRouteFinderStatus.Success)
-            {
-                // Inicializamos un MapRouteView
-                MapRouteView viewOfRoute = new MapRouteView(routeResult.Route);
-                viewOfRoute.RouteColor = Colors.Green;
-                viewOfRoute.OutlineColor = Colors.Black;
+            ////Proceso de mostrar la ruta anterior en el mapa
+            //if (routeResult.Status == MapRouteFinderStatus.Success)
+            //{
+            //    // Inicializamos un MapRouteView
+            //    MapRouteView viewOfRoute = new MapRouteView(routeResult.Route);
+            //    viewOfRoute.RouteColor = Colors.Green;
+            //    viewOfRoute.OutlineColor = Colors.Black;
 
-                // Lo añadimos a la colección Routes del mapa
-                mapaSoria.Routes.Add(viewOfRoute);
+            //    // Lo añadimos a la colección Routes del mapa
+            //    mapaSoria.Routes.Add(viewOfRoute);
 
-                // Encajamos la ruta en la pantalla
-                /*await mapaSoria.TrySetViewBoundsAsync(
-                      routeResult.Route.BoundingBox,
-                      null,
-                      Windows.UI.Xaml.Controls.Maps.MapAnimationKind.None);*/
-            }
+            //    // Encajamos la ruta en la pantalla
+            //    /*await mapaSoria.TrySetViewBoundsAsync(
+            //          routeResult.Route.BoundingBox,
+            //          null,
+            //          Windows.UI.Xaml.Controls.Maps.MapAnimationKind.None);*/
+            //}
 
             base.OnNavigatedTo(e);
+        }
+
+        private async void CreateRequests()
+        {
+            Color[] colors = new Color[5] { Colors.LightGreen, Colors.LightCoral, Colors.LightGray, Colors.Aqua, Colors.White };
+
+            for (int i = 0; i<5; i++)
+            {
+                BasicGeoposition b;
+                b.Latitude = mapaSoria.Center.Position.Latitude + rnd.Next(-10000, 10000) / 1000000.0; // números mágicos
+                b.Longitude = mapaSoria.Center.Position.Longitude + rnd.Next(-20000, 20000) / 1000000.0; // números mágicos
+                b.Altitude = mapaSoria.Center.Position.Altitude;
+                requests[i] = new Geopoint(b);
+
+                Button req = new Button();
+                Image requestImg = new Image();
+                requestImg.Source = new BitmapImage(new Uri(this.BaseUri, "/Assets/ManualView/Request.png"));
+                req.Width = 50; req.Height = 70; /*piz.BorderThickness = (Thickness)0;*/
+                req.Content = requestImg;
+                //piz.Click += OnPizzeriaSelected;
+                mapaSoria.Children.Add(req);
+                MapControl.SetLocation(req, requests[i]);
+                MapControl.SetNormalizedAnchorPoint(req, new Point(0.5, 0.5));
+
+                MapRouteFinderResult routeResult = await MapRouteFinder.GetDrivingRouteAsync(pizzeriaPosition, requests[i],
+                    MapRouteOptimization.Distance, MapRouteRestrictions.None);
+
+                //Proceso de mostrar la ruta anterior en el mapa
+                if (routeResult.Status == MapRouteFinderStatus.Success)
+                {
+                    // Inicializamos un MapRouteView
+                    MapRouteView viewOfRoute = new MapRouteView(routeResult.Route);
+                    viewOfRoute.RouteColor = colors[i];
+                    viewOfRoute.OutlineColor = Colors.Black;
+
+                    // Lo añadimos a la colección Routes del mapa
+                    mapaSoria.Routes.Add(viewOfRoute);
+                }
+            }
         }
 
         private void OpenAbilties()
@@ -169,7 +213,7 @@ namespace LocaAcademiaDePizzeria
 
         private void PizzaTime_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(ManualView));
+            this.Frame.Navigate(typeof(ManualView), requests);
         }
 
         private void expandedDrivers_SelectionChanged(object sender, SelectionChangedEventArgs e)

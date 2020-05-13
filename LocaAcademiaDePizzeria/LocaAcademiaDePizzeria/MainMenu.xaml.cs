@@ -74,9 +74,6 @@ namespace LocaAcademiaDePizzeria
             }
         }
 
-        private void addPizzeria(BasicGeoposition pos) { 
-        }
-
         private void OnButtonClicked(object sender, RoutedEventArgs e)
         {
             if (isPizzeriaSelected)

@@ -9,6 +9,8 @@ using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Diagnostics;
+using Windows.Services.Maps;
+using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -32,10 +34,19 @@ namespace LocaAcademiaDePizzeria
 
         public ObservableCollection<Ability> abilities { get; } = new ObservableCollection<Ability>();
 
+        public PointerPoint firstPoint = null;
+        public int maxJoystickDistance = 60;
+        public int timerSpeed = 10;
+        public DateTime dateTimer;
+        public Geopoint[] requests = new Geopoint[5];
+
         public ManualView()
         {
             this.InitializeComponent();
+        }
 
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
             //mapa
             BasicGeoposition soriaPosition;
             soriaPosition.Latitude = 41.764609;
@@ -55,15 +66,11 @@ namespace LocaAcademiaDePizzeria
 
             // Carga la lista de ModelView a partir de la lista de Modelo
             if (abilities != null) foreach (Ability ability in AbilityModel.GetAllAbilities()) abilities.Add(ability);
+            requests = e.Parameter as Geopoint[];
             CreateBikes();
-        }
+        }     
 
-        public PointerPoint firstPoint = null;
-        public int maxJoystickDistance = 60;
-        public int timerSpeed = 10;
-        public DateTime dateTimer;
-
-        private void CreateBikes()
+        private async void CreateBikes()
         {
             BasicGeoposition pizzaPos1; pizzaPos1.Latitude = 41.765633; pizzaPos1.Longitude = -2.471333; pizzaPos1.Altitude = 1050;
             BasicGeoposition pizzaPos2; pizzaPos2.Latitude = 41.769806; pizzaPos2.Longitude = -2.474726; pizzaPos2.Altitude = 1050;
@@ -74,16 +81,42 @@ namespace LocaAcademiaDePizzeria
             Geopoint[] pizzeriaPositions = new Geopoint[5]{ new Geopoint(pizzaPos1), new Geopoint(pizzaPos2),
                 new Geopoint(pizzaPos3), new Geopoint(pizzaPos4), new Geopoint(pizzaPos5) };
 
-            foreach (Geopoint pos in pizzeriaPositions)
+            Color[] colors = new Color[5] { Colors.LightGreen, Colors.LightCoral, Colors.LightGray, Colors.Aqua, Colors.White };
+
+            for(int i = 0; i< 5; i++)
             {
-                Image bikeIMG = new Image();
-                bikeIMG.Source = new BitmapImage(new Uri(this.BaseUri, "/Assets/ManualView/Bike.png"));
-                bikeIMG.Width = 35;
-                bikeIMG.Height = 35;
-                mapaSoria.Children.Add(bikeIMG);
-                MapControl.SetLocation(bikeIMG, pos);
-                MapControl.SetNormalizedAnchorPoint(bikeIMG, new Point(0.5, 0.5));
+                //bikes
+                createImage("/Assets/ManualView/Bike.png", pizzeriaPositions[i]);
+
+                //requests
+                createImage("/Assets/ManualView/Request.png", requests[i]);
+
+                MapRouteFinderResult routeResult = await MapRouteFinder.GetDrivingRouteAsync(pizzeriaPositions[i], requests[i],
+                    MapRouteOptimization.Distance, MapRouteRestrictions.None);
+
+                //Proceso de mostrar la ruta anterior en el mapa
+                if (routeResult.Status == MapRouteFinderStatus.Success)
+                {
+                    // Inicializamos un MapRouteView
+                    MapRouteView viewOfRoute = new MapRouteView(routeResult.Route);
+                    viewOfRoute.RouteColor = colors[i];
+                    viewOfRoute.OutlineColor = Colors.Black;
+
+                    // Lo añadimos a la colección Routes del mapa
+                    mapaSoria.Routes.Add(viewOfRoute);
+                }
             }
+        }
+
+        private void createImage(string path, Geopoint pos)
+        {
+            Image Img = new Image();
+            Img.Source = new BitmapImage(new Uri(this.BaseUri, path));
+            Img.Width = 35;
+            Img.Height = 35;
+            mapaSoria.Children.Add(Img);
+            MapControl.SetLocation(Img, pos);
+            MapControl.SetNormalizedAnchorPoint(Img, new Point(0.5, 0.5));
         }
 
         private void StreetCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
