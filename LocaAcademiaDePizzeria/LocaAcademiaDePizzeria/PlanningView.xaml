@@ -119,8 +119,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <Button x:Name="Button_CloseAbilites" Grid.Column="2" Background="Red" Content="X" VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                    Click="Button_CloseAbilites_Click"/>
+            <Button Style="{StaticResource CloseTabButtonStyle}" x:Name="Button_CloseAbilites" Click="Button_CloseAbilites_Click"/>
         </Grid>
         <Grid x:Name="Grid_expandedDrivers" 
             HorizontalAlignment="Left" VerticalAlignment="Bottom"
@@ -142,8 +141,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <Button x:Name="Button_CloseDrivers" Grid.Column="2" Background="Red" Content="X" VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                    Click="Button_CloseDrivers_Click"/>
+            <Button Style="{StaticResource CloseTabButtonStyle}" x:Name="Button_CloseDrivers" Click="Button_CloseDrivers_Click"/>
         </Grid>
         <Grid x:Name="driverIdsffdsStats" VerticalAlignment="Top" HorizontalAlignment="Right" Width="216" Height="200">
             <Grid.RowDefinitions>
