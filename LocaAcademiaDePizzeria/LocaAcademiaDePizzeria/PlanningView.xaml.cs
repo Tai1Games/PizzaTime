@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
@@ -14,7 +15,10 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.Services.Maps;
+using Windows.UI;
 
 // La plantilla de elemento Página en blanco está documentada en https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -52,13 +56,61 @@ namespace LocaAcademiaDePizzeria
             CloseAbilties();
             CloseDrivers();
 
-            BasicGeoposition soriaPosition;
-            soriaPosition.Latitude = 41.764609;
-            soriaPosition.Longitude = -2.472443;
-            soriaPosition.Altitude = 2000;
 
-            mapaSoria.Center = new Geopoint(soriaPosition);
+            //Centrado del mapa sobre la posición de la pizzería
+            Geopoint pizzeriaPosition =  e.Parameter as Geopoint;
+            mapaSoria.Center = pizzeriaPosition;
             mapaSoria.ZoomLevel = 15;
+
+
+            //Creación de la imagen de la pizzería
+            Image image = new Image();
+            image.Source = new BitmapImage(new Uri("ms-appx:///Assets/Pizzeria.png"));
+            image.Width = 50;
+            image.Height = 50;
+            mapaSoria.Children.Add(image);
+            MapControl.SetLocation(image, pizzeriaPosition);
+            MapControl.SetNormalizedAnchorPoint(image, new Point(0.5, 0.5));
+
+
+            //Creación de imagen de prueba (para calcular ruta)
+            BasicGeoposition soriaPosition2;
+            soriaPosition2.Latitude = 41.768670;
+            soriaPosition2.Longitude = -2.482230;
+            soriaPosition2.Altitude = 2000;
+            Windows.UI.Xaml.Controls.Image image2 = new Image();
+            image2.Source = new BitmapImage(new Uri("ms-appx:///Assets/Icon.png"));
+            image2.Width = 50;
+            image2.Height = 50;
+            mapaSoria.Children.Add(image2);
+            MapControl.SetLocation(image2, new Geopoint(soriaPosition2));
+            MapControl.SetNormalizedAnchorPoint(image2, new Point(0.5, 0.5));
+
+            //Creación de la ruta pizzería -> imagen de prueba
+            MapRouteFinderResult routeResult =
+            await MapRouteFinder.GetDrivingRouteAsync(
+            pizzeriaPosition,
+            new Geopoint(soriaPosition2),
+            MapRouteOptimization.Distance,
+            MapRouteRestrictions.None);
+
+            //Proceso de mostrar la ruta anterior en el mapa
+            if (routeResult.Status == MapRouteFinderStatus.Success)
+            {
+                // Inicializamos un MapRouteView
+                MapRouteView viewOfRoute = new MapRouteView(routeResult.Route);
+                viewOfRoute.RouteColor = Colors.Green;
+                viewOfRoute.OutlineColor = Colors.Black;
+
+                // Lo añadimos a la colección Routes del mapa
+                mapaSoria.Routes.Add(viewOfRoute);
+
+                // Encajamos la ruta en la pantalla
+                /*await mapaSoria.TrySetViewBoundsAsync(
+                      routeResult.Route.BoundingBox,
+                      null,
+                      Windows.UI.Xaml.Controls.Maps.MapAnimationKind.None);*/
+            }
 
             base.OnNavigatedTo(e);
         }

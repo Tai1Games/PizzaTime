@@ -5,6 +5,7 @@
     xmlns:local="using:LocaAcademiaDePizzeria"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <!--<Page.Resources>
@@ -18,13 +19,17 @@
         <SolidColorBrush x:Key="unInteractableColor" Color="Gray"></SolidColorBrush>
         <SolidColorBrush x:Key="InteractableColor" Color="Green"></SolidColorBrush>
     </Page.Resources>
-    
+
     <Grid>
-        <Image
+        <!--<Image
             Source="Assets/MapSoria.png"
             Stretch="Fill">
-        </Image>
-        <Canvas>
+        </Image>-->
+        <maps:MapControl x:Name="mapaSoria" 
+                         MapServiceToken="3F9n0LcGV1wSH3iIU89U~BwTbE03iRdHjskVJ_rPB5Q~AuNQu5A2wnQJDEEiczijHmsZDJOxjSF-_a--KOaTCWvf26nhdG0PrJmIHUiPIqrU"
+                         TrafficFlowVisible="True">
+        </maps:MapControl>
+        <!--<Canvas>
             <Button Width="50" Height="70" Canvas.Left="1000" Canvas.Top="600" BorderThickness="0" Background="#00000000" Click="OnPizzeriaSelected">
                 <StackPanel >
                     <Image Source="Assets/PizzeriaUnselected.png" Stretch="Fill"/>
@@ -40,13 +45,14 @@
                     <Image Source="Assets/PizzeriaUnselected.png" Stretch="Fill"/>
                 </StackPanel>            
             </Button>
-        </Canvas>
+        </Canvas>-->
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Background="#bdd7eeff" Margin="10">
             <TextBlock Text="LOCA ACADEMIA DE PIZZERIA" FontSize="50"></TextBlock>
         </StackPanel>
 
-        <Button x:Name="PizzaTimeButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="180" Height="100" Background="#D3D3D3" Click="OnButtonClicked">
-            <TextBlock x:Name="PizzaTimeButtonText" Text="Not pizza time (yet)" Height="20" VerticalAlignment="Bottom"></TextBlock>
+        <Button x:Name="PizzaTimeButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="180" Height="93" Click="OnButtonClicked"
+                BorderThickness="0" Padding="0">
+            <Image Source="Assets/MainMenuButtonInactive.png"/>
         </Button>
     </Grid>
 </Page>
