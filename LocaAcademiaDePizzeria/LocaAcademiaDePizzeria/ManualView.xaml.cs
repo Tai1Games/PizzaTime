@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // La plantilla de elemento Página en blanco está documentada en https://go.microsoft.com/fwlink/?LinkId=234238
@@ -53,17 +54,37 @@ namespace LocaAcademiaDePizzeria
             dateTimer = d.AddMinutes(1170);
 
             // Carga la lista de ModelView a partir de la lista de Modelo
-            if (abilities != null)
-                foreach (Ability ability in AbilityModel.GetAllAbilities())
-                {
-                    abilities.Add(ability);
-                }
+            if (abilities != null) foreach (Ability ability in AbilityModel.GetAllAbilities()) abilities.Add(ability);
+            CreateBikes();
         }
 
         public PointerPoint firstPoint = null;
         public int maxJoystickDistance = 60;
         public int timerSpeed = 10;
         public DateTime dateTimer;
+
+        private void CreateBikes()
+        {
+            BasicGeoposition pizzaPos1; pizzaPos1.Latitude = 41.765633; pizzaPos1.Longitude = -2.471333; pizzaPos1.Altitude = 1050;
+            BasicGeoposition pizzaPos2; pizzaPos2.Latitude = 41.769806; pizzaPos2.Longitude = -2.474726; pizzaPos2.Altitude = 1050;
+            BasicGeoposition pizzaPos3; pizzaPos3.Latitude = 41.761557; pizzaPos3.Longitude = -2.468557; pizzaPos3.Altitude = 1050;
+            BasicGeoposition pizzaPos4; pizzaPos4.Latitude = 41.760440; pizzaPos4.Longitude = -2.474464; pizzaPos4.Altitude = 1050;
+            BasicGeoposition pizzaPos5; pizzaPos5.Latitude = 41.769015; pizzaPos5.Longitude = -2.466636; pizzaPos5.Altitude = 1050;
+
+            Geopoint[] pizzeriaPositions = new Geopoint[5]{ new Geopoint(pizzaPos1), new Geopoint(pizzaPos2),
+                new Geopoint(pizzaPos3), new Geopoint(pizzaPos4), new Geopoint(pizzaPos5) };
+
+            foreach (Geopoint pos in pizzeriaPositions)
+            {
+                Image bikeIMG = new Image();
+                bikeIMG.Source = new BitmapImage(new Uri(this.BaseUri, "/Assets/ManualView/Bike.png"));
+                bikeIMG.Width = 35;
+                bikeIMG.Height = 35;
+                mapaSoria.Children.Add(bikeIMG);
+                MapControl.SetLocation(bikeIMG, pos);
+                MapControl.SetNormalizedAnchorPoint(bikeIMG, new Point(0.5, 0.5));
+            }
+        }
 
         private void StreetCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
@@ -117,5 +138,6 @@ namespace LocaAcademiaDePizzeria
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
     }
 }
