@@ -65,6 +65,7 @@ namespace LocaAcademiaDePizzeria
                 Button piz = new Button();
                 Image pizzeriaIMG = new Image();
                 pizzeriaIMG.Source = new BitmapImage(new Uri(this.BaseUri, "/Assets/PizzeriaUnselected.png"));
+                piz.Style = (Style)Application.Current.Resources["InvisibleButtonStyle"];
                 piz.Width = 50; piz.Height = 70; /*piz.BorderThickness = (Thickness)0;*/
                 piz.Content = pizzeriaIMG;
                 piz.Click += OnPizzeriaSelected;
@@ -92,26 +93,24 @@ namespace LocaAcademiaDePizzeria
             {
                 if (!isPizzeriaSelected) activatePizzaTimeButton();
 
+                button.Style = (Style)Application.Current.Resources["InvisibleButtonStyle"];
+                button.Width = 50; button.Height = 70; /*piz.BorderThickness = (Thickness)0;*/
+
                 Image img = new Image();
                 img.Source = new BitmapImage(new Uri(this.BaseUri, "/Assets/PizzeriaSelected.png"));
-                img.Stretch = Stretch.Fill;
+                img.Stretch = Stretch.Uniform;
 
-                StackPanel stackPnl = new StackPanel();
-                stackPnl.Children.Add(img);
-
-                button.Content = stackPnl;
+                button.Content = img;
 
                 if (selectedButton != null)
                 {
                     img = new Image();
                     img.Source = new BitmapImage(new Uri(this.BaseUri, "/Assets/PizzeriaUnselected.png"));
-                    img.Stretch = Stretch.Fill;
+                    img.Stretch = Stretch.Uniform;
 
-                    stackPnl = new StackPanel();
-                    stackPnl.Children.Add(img);
-
-                    selectedButton.Content = stackPnl;
+                    selectedButton.Content = img;
                 }
+
                 selectedButton = button;
 
                 selectedLocation = MapControl.GetLocation(button);
