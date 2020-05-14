@@ -24,10 +24,6 @@ namespace LocaAcademiaDePizzeria
         public Ability()
         {
         }
-
-        public string ButtonImage = "assets/ManualView/Button.png";
-
-        public double Opacity = 1;
     }
 
     public class AbilityModel

@@ -29,7 +29,7 @@ namespace LocaAcademiaDePizzeria
     /// <summary>
     /// Una página vacía que se puede usar de forma independiente o a la que se puede navegar dentro de un objeto Frame.
     /// </summary>
-    public sealed partial class ManualView : Page, INotifyPropertyChanged
+    public sealed partial class ManualView : Page
     {
 
         public ObservableCollection<Ability> abilities { get; } = new ObservableCollection<Ability>();
@@ -37,15 +37,17 @@ namespace LocaAcademiaDePizzeria
         public PointerPoint firstPoint = null;
         public int maxJoystickDistance = 60;
         public int timerSpeed = 10;
+        public double opacityChange = 0.5;
         public DateTime dateTimer;
         public Geopoint[] requests = new Geopoint[5];
+        public Color[] colors = { Colors.LightGreen, Colors.LightCoral, Colors.LightGray, Colors.Aqua, Colors.White };
 
         public ManualView()
         {
             this.InitializeComponent();
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             //mapa
             BasicGeoposition soriaPosition;
@@ -80,8 +82,7 @@ namespace LocaAcademiaDePizzeria
 
             Geopoint[] pizzeriaPositions = new Geopoint[5]{ new Geopoint(pizzaPos1), new Geopoint(pizzaPos2),
                 new Geopoint(pizzaPos3), new Geopoint(pizzaPos4), new Geopoint(pizzaPos5) };
-
-            Color[] colors = new Color[5] { Colors.LightGreen, Colors.LightCoral, Colors.LightGray, Colors.Aqua, Colors.White };
+          
 
             for(int i = 0; i< 5; i++)
             {
@@ -164,13 +165,11 @@ namespace LocaAcademiaDePizzeria
             Timer.Text = dateTimer.Hour.ToString("D2") + ":" + dateTimer.Minute.ToString("D2") + ":" + dateTimer.Second.ToString("D2");
         }
 
-        private void AbilityList_ItemClick(object sender, ItemClickEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            (e.ClickedItem as Ability).Opacity = 0.75;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Ability.Opacity)));
+            Button b = e.OriginalSource as Button;
+            Image img = b.Content as Image;
+            img.Opacity = opacityChange; 
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
     }
 }
