@@ -9,6 +9,8 @@ using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Diagnostics;
+using Windows.Services.Maps;
+using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -17,6 +19,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // La plantilla de elemento Página en blanco está documentada en https://go.microsoft.com/fwlink/?LinkId=234238
@@ -26,15 +29,26 @@ namespace LocaAcademiaDePizzeria
     /// <summary>
     /// Una página vacía que se puede usar de forma independiente o a la que se puede navegar dentro de un objeto Frame.
     /// </summary>
-    public sealed partial class ManualView : Page, INotifyPropertyChanged
+    public sealed partial class ManualView : Page
     {
 
         public ObservableCollection<Ability> abilities { get; } = new ObservableCollection<Ability>();
 
+        public PointerPoint firstPoint = null;
+        public int maxJoystickDistance = 60;
+        public int timerSpeed = 10;
+        public double opacityChange = 0.5;
+        public DateTime dateTimer;
+        public Geopoint[] requests = new Geopoint[5];
+        public Color[] colors = { Colors.LightGreen, Colors.LightCoral, Colors.LightGray, Colors.Aqua, Colors.White };
+
         public ManualView()
         {
             this.InitializeComponent();
+        }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
             //mapa
             BasicGeoposition soriaPosition;
             soriaPosition.Latitude = 41.764609;
@@ -53,17 +67,58 @@ namespace LocaAcademiaDePizzeria
             dateTimer = d.AddMinutes(1170);
 
             // Carga la lista de ModelView a partir de la lista de Modelo
-            if (abilities != null)
-                foreach (Ability ability in AbilityModel.GetAllAbilities())
+            if (abilities != null) foreach (Ability ability in AbilityModel.GetAllAbilities()) abilities.Add(ability);
+            requests = e.Parameter as Geopoint[];
+            CreateBikes();
+        }     
+
+        private async void CreateBikes()
+        {
+            BasicGeoposition pizzaPos1; pizzaPos1.Latitude = 41.765633; pizzaPos1.Longitude = -2.471333; pizzaPos1.Altitude = 1050;
+            BasicGeoposition pizzaPos2; pizzaPos2.Latitude = 41.769806; pizzaPos2.Longitude = -2.474726; pizzaPos2.Altitude = 1050;
+            BasicGeoposition pizzaPos3; pizzaPos3.Latitude = 41.761557; pizzaPos3.Longitude = -2.468557; pizzaPos3.Altitude = 1050;
+            BasicGeoposition pizzaPos4; pizzaPos4.Latitude = 41.760440; pizzaPos4.Longitude = -2.474464; pizzaPos4.Altitude = 1050;
+            BasicGeoposition pizzaPos5; pizzaPos5.Latitude = 41.769015; pizzaPos5.Longitude = -2.466636; pizzaPos5.Altitude = 1050;
+
+            Geopoint[] pizzeriaPositions = new Geopoint[5]{ new Geopoint(pizzaPos1), new Geopoint(pizzaPos2),
+                new Geopoint(pizzaPos3), new Geopoint(pizzaPos4), new Geopoint(pizzaPos5) };
+          
+
+            for(int i = 0; i< 5; i++)
+            {
+                //bikes
+                createImage("/Assets/ManualView/Bike.png", pizzeriaPositions[i]);
+
+                //requests
+                createImage("/Assets/ManualView/Request.png", requests[i]);
+
+                MapRouteFinderResult routeResult = await MapRouteFinder.GetDrivingRouteAsync(pizzeriaPositions[i], requests[i],
+                    MapRouteOptimization.Distance, MapRouteRestrictions.None);
+
+                //Proceso de mostrar la ruta anterior en el mapa
+                if (routeResult.Status == MapRouteFinderStatus.Success)
                 {
-                    abilities.Add(ability);
+                    // Inicializamos un MapRouteView
+                    MapRouteView viewOfRoute = new MapRouteView(routeResult.Route);
+                    viewOfRoute.RouteColor = colors[i];
+                    viewOfRoute.OutlineColor = Colors.Black;
+
+                    // Lo añadimos a la colección Routes del mapa
+                    mapaSoria.Routes.Add(viewOfRoute);
                 }
+            }
         }
 
-        public PointerPoint firstPoint = null;
-        public int maxJoystickDistance = 60;
-        public int timerSpeed = 10;
-        public DateTime dateTimer;
+        private void createImage(string path, Geopoint pos)
+        {
+            Image Img = new Image();
+            Img.Source = new BitmapImage(new Uri(this.BaseUri, path));
+            Img.Width = 35;
+            Img.Height = 35;
+            mapaSoria.Children.Add(Img);
+            MapControl.SetLocation(Img, pos);
+            MapControl.SetNormalizedAnchorPoint(Img, new Point(0.5, 0.5));
+        }
 
         private void StreetCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
@@ -110,12 +165,11 @@ namespace LocaAcademiaDePizzeria
             Timer.Text = dateTimer.Hour.ToString("D2") + ":" + dateTimer.Minute.ToString("D2") + ":" + dateTimer.Second.ToString("D2");
         }
 
-        private void AbilityList_ItemClick(object sender, ItemClickEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            (e.ClickedItem as Ability).Opacity = 0.75;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Ability.Opacity)));
+            Button b = e.OriginalSource as Button;
+            Image img = b.Content as Image;
+            img.Opacity = opacityChange; 
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

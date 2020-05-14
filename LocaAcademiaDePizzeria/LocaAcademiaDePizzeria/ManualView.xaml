@@ -8,7 +8,7 @@
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>
@@ -29,6 +29,7 @@
                PointerMoved="StreetCanvas_PointerMoved"
                PointerReleased="StreetCanvas_PointerReleased"
                />
+        
         <Border Background="Black" Grid.ColumnSpan="3" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0">
             <TextBlock x:Name="Timer" Text="19:30:00" FontWeight="Bold" Foreground="White" FontFamily="Arial" FontSize="50px"/>
         </Border>
@@ -39,16 +40,18 @@
                          PointerMoved="StreetCanvas_PointerMoved"
                          MapServiceToken="3F9n0LcGV1wSH3iIU89U~BwTbE03iRdHjskVJ_rPB5Q~AuNQu5A2wnQJDEEiczijHmsZDJOxjSF-_a--KOaTCWvf26nhdG0PrJmIHUiPIqrU"
                          TrafficFlowVisible="True"/>
-        <ListView x:Name="AbilityList" ItemsSource="{x:Bind abilities}" Grid.Row="1" ItemClick="AbilityList_ItemClick" IsItemClickEnabled="True"
+        <ListView x:Name="AbilityList" ItemsSource="{x:Bind abilities}" Grid.RowSpan="2"
                   PointerReleased="StreetCanvas_PointerReleased" PointerMoved="StreetCanvas_PointerMoved"
                   Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:Ability">
                     <Grid>
-                        <Image Source="{x:Bind ButtonImage}" 
-                               Opacity="{x:Bind Opacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Image Source="{x:Bind imgSource}" 
-                               Opacity="{x:Bind Opacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Click="Button_Click">
+                            <Image Source="assets/ManualView/Button.png" />
+                        </Button>
+                        <Button Click="Button_Click">
+                            <Image Source="{x:Bind imgSource}" />
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
