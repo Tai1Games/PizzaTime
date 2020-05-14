@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace LocaAcademiaDePizzeria
 {
@@ -12,23 +8,37 @@ namespace LocaAcademiaDePizzeria
 
         public int actDeliveries { get; set; }
 
-        public string name { get; set;}
+        public string name { get; set; }
 
         public string imgSource { get; set; }
 
-        public Driver() { }
+        public int money { get; set; }
+        public int speed { get; set; }
+        public int happiness { get; set; }
 
+        public const int MAX_MONEY = 20;
+        public const int MAX_SPEED = 55;
+        public const int MAX_CARRY = 10;
+        public const int MAX_HAPPINESS = 150;
+
+        public Driver()
+        {
+        }
     }
 
-    public class DriverModel{
+    public class DriverModel
+    {
         public static List<Driver> DriverList = new List<Driver>()
         {
             new Driver()
             {
-                maxDeliveries=5,
+                maxDeliveries=4,
                 actDeliveries = 1,
                 name = "Vegan Jorge",
                 imgSource = "Assets//Samples//8.jpg",
+                money=9,
+                speed = 30,
+                happiness = 100,
             },
             new Driver()
             {
@@ -36,17 +46,25 @@ namespace LocaAcademiaDePizzeria
                 actDeliveries = 4,
                 name = "Influencer",
                 imgSource = "Assets//Samples//17.jpg",
-
+                money=6,
+                speed = 20,
+                happiness = 80,
             },
             new Driver()
             {
                 maxDeliveries=12,
                 actDeliveries = 0,
-                name = "Skereeeeee",
+                name = "El manitas",
                 imgSource = "Assets//Samples//7.jpg",
+                money=7,
+                speed = 40,
+                happiness = 135,
             }
         };
 
-        public static IList<Driver> GetAllDrivers() { return DriverList; }
+        public static IList<Driver> GetAllDrivers()
+        {
+            return DriverList;
+        }
     }
 }

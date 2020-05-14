@@ -11,6 +11,52 @@ namespace LocaAcademiaDePizzeria
     public class DriverViewModel : Driver
     {
         public Image img;
+
+        public double carryCapacityBar()
+        {
+            return 100 * (double)actDeliveries / (double)maxDeliveries;
+        }
+
+        public double carryRatio()
+        {
+            return 100 * (double)maxDeliveries / (double)MAX_CARRY;
+        }
+
+        public double moneyRatio()
+        {
+            return 100 * (double)money / (double)MAX_MONEY;
+        }
+
+        public double happinessRatio()
+        {
+            return 100 * (double)happiness / (double)MAX_HAPPINESS;
+        }
+
+        public double speedRatio()
+        {
+            return 100 * (double)speed / (double)MAX_SPEED;
+        }
+
+        public string speedRatiostring()
+        {
+            return (speed + " km/h");
+        }
+
+        public string happinessRatiostring()
+        {
+            return (happiness + " :)");
+        }
+
+        public string carryRatiostring()
+        {
+            return (maxDeliveries + " pizzas");
+        }
+
+        public string moneyRatiostring()
+        {
+            return (money + " €/h");
+        }
+
         public DriverViewModel(Driver model)
         {
             img = new Image();
@@ -22,6 +68,9 @@ namespace LocaAcademiaDePizzeria
             maxDeliveries = model.maxDeliveries;
             imgSource = model.imgSource;
             name = model.name;
+            speed = model.speed;
+            happiness = model.happiness;
+            money = model.money;
         }
     }
 }
