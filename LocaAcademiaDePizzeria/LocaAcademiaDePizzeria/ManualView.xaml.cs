@@ -9,6 +9,7 @@ using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Diagnostics;
+using Windows.Media.Playback;
 using Windows.Services.Maps;
 using Windows.UI;
 using Windows.UI.Input;
@@ -21,6 +22,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using static LocaAcademiaDePizzeria.PlanningView;
 
 // La plantilla de elemento Página en blanco está documentada en https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -35,12 +37,20 @@ namespace LocaAcademiaDePizzeria
         public ObservableCollection<Ability> abilities { get; } = new ObservableCollection<Ability>();
 
         public PointerPoint firstPoint = null;
+
         public int maxJoystickDistance = 60;
+
         public int timerSpeed = 10;
+
         public double opacityChange = 0.5;
+
         public DateTime dateTimer;
+
         public Geopoint[] requests = new Geopoint[5];
+
         public Color[] colors = { Colors.LightGreen, Colors.LightCoral, Colors.LightGray, Colors.Aqua, Colors.White };
+
+        public MediaPlayer mediaPlayer;
 
         public ManualView()
         {
@@ -68,7 +78,10 @@ namespace LocaAcademiaDePizzeria
 
             // Carga la lista de ModelView a partir de la lista de Modelo
             if (abilities != null) foreach (Ability ability in AbilityModel.GetAllAbilities()) abilities.Add(ability);
-            requests = e.Parameter as Geopoint[];
+
+            PlanningViewParameters p = e.Parameter as PlanningViewParameters;
+            mediaPlayer = p.mediaPlayer;
+            requests = p.requests;
             CreateBikes();
         }     
 
