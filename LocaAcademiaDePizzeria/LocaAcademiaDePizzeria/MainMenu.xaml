@@ -57,12 +57,5 @@
         </Image>
 
         <Canvas x:Name="tutorialCanvas"/>
-
-        <!--<Image
-            Source="Assets/Tutorials/T1-1.png"
-            Width="600" Height="300"
-            Margin="567,99,113,321"
-            >
-        </Image>-->
     </Grid>
 </Page>

@@ -189,6 +189,7 @@
     <Content Include="Assets\SmallTile.scale-400.png" />
     <Content Include="Assets\SoriaMap.PNG" />
     <Content Include="Assets\Sounds\Italian_Spirit.mp3" />
+    <Content Include="Assets\Sounds\PizzySound.mp3" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />

@@ -41,11 +41,13 @@ namespace LocaAcademiaDePizzeria
         public Geopoint selectedLocation;
 
         public MediaPlayer mediaPlayer;
+        public MediaPlayer tutorialSounds;
 
         public class MainMenuParameters
         {
             public MediaPlayer mediaPlayer;
             public Geopoint selectedLocation;
+            public MediaPlayer tutorialSounds;
         }
 
         public MainMenu()
@@ -69,17 +71,23 @@ namespace LocaAcademiaDePizzeria
             mediaPlayer.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Sounds/Italian_Spirit.mp3"));
             mediaPlayer.Volume = 0.5;
             mediaPlayer.Play();
+
+            tutorialSounds = new MediaPlayer();
+            tutorialSounds.Source = MediaSource.CreateFromUri(new Uri(this.BaseUri, "Assets/Sounds/PizzySound.mp3"));
+            tutorialSounds.Volume = 1;
+            tutorialSounds.Play();
             
-            createTutorialImages();
+            //Tutoriales
+            createTutorials();
         }
 
-        private void createTutorialImages()
+        private void createTutorials()
         {
-            tutorials[0] = createTutorial(600, 250, 510, 140, "/Assets/Tutorials/T1-1.png", true);
-            tutorials[1] = createTutorial(600, 250, 510, 140, "/Assets/Tutorials/T1-2.png", false);
+            tutorials[0] = createTutorialButton(600, 250, 510, 140, "/Assets/Tutorials/T1-1.png", true);
+            tutorials[1] = createTutorialButton(600, 250, 510, 140, "/Assets/Tutorials/T1-2.png", false);
         }
 
-        private Button createTutorial(int w, int h, int left, int top, string route, bool visible)
+        private Button createTutorialButton(int w, int h, int left, int top, string route, bool visible)
         {
             Button t = new Button();
             t.Width = w; t.Height = h;
@@ -103,6 +111,7 @@ namespace LocaAcademiaDePizzeria
             if (currentTutorial < tutorials.Length)
             {
                 tutorials[currentTutorial].Visibility = Visibility.Visible;
+                tutorialSounds.Play();
             }
             else tutorialBlock.Visibility = Visibility.Collapsed;
         }
@@ -141,6 +150,7 @@ namespace LocaAcademiaDePizzeria
                 MainMenuParameters p = new MainMenuParameters();
                 p.mediaPlayer = mediaPlayer;
                 p.selectedLocation = selectedLocation;
+                p.tutorialSounds = tutorialSounds;
                 this.Frame.Navigate(typeof(PlanningView), p);
             }
         }
