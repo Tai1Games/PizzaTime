@@ -19,6 +19,8 @@ using Windows.Devices.Geolocation;
 using Windows.UI.Xaml.Controls.Maps;
 using System.Data;
 using Windows.UI.Xaml.Automation;
+using Windows.Media.Playback;
+using Windows.Media.Core;
 
 // La plantilla de elemento Página en blanco está documentada en https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -30,8 +32,18 @@ namespace LocaAcademiaDePizzeria
     public sealed partial class MainMenu : Page
     {
         public Button selectedButton = null;
+
         public bool isPizzeriaSelected = false;
-        Geopoint selectedLocation;
+
+        public Geopoint selectedLocation;
+
+        public MediaPlayer mediaPlayer;
+
+        public class MainMenuParameters
+        {
+            public MediaPlayer mediaPlayer;
+            public Geopoint selectedLocation;
+        }
 
         public MainMenu()
         {
@@ -46,6 +58,14 @@ namespace LocaAcademiaDePizzeria
 
             mapaSoria.Center = new Geopoint(soriaPosition);
             mapaSoria.ZoomLevel = 15;
+
+            //Sound
+            ElementSoundPlayer.State = ElementSoundPlayerState.On;
+
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/Sounds/Italian_Spirit.mp3"));
+            mediaPlayer.Volume = 0.5;
+            mediaPlayer.Play();
         }
 
         private void CreatePizzerias()
@@ -57,7 +77,7 @@ namespace LocaAcademiaDePizzeria
             BasicGeoposition pizzaPos5; pizzaPos5.Latitude = 41.769015; pizzaPos5.Longitude = -2.466636; pizzaPos5.Altitude = 1050;
 
 
-            Geopoint[] pizzeriaPositions = new Geopoint[5]{ new Geopoint(pizzaPos1), new Geopoint(pizzaPos2), 
+            Geopoint[] pizzeriaPositions = new Geopoint[5]{ new Geopoint(pizzaPos1), new Geopoint(pizzaPos2),
                 new Geopoint(pizzaPos3), new Geopoint(pizzaPos4), new Geopoint(pizzaPos5) };
 
             foreach (Geopoint pos in pizzeriaPositions)
@@ -79,7 +99,10 @@ namespace LocaAcademiaDePizzeria
         {
             if (isPizzeriaSelected)
             {
-               this.Frame.Navigate(typeof(PlanningView), selectedLocation);
+                MainMenuParameters p = new MainMenuParameters();
+                p.mediaPlayer = mediaPlayer;
+                p.selectedLocation = selectedLocation;
+                this.Frame.Navigate(typeof(PlanningView), p);
             }
         }
 
