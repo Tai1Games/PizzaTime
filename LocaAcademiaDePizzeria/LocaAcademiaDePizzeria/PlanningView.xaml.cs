@@ -20,6 +20,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.Services.Maps;
 using Windows.UI;
+using Windows.Media.Playback;
+using static LocaAcademiaDePizzeria.MainMenu;
 
 // La plantilla de elemento Página en blanco está documentada en https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -46,6 +48,14 @@ namespace LocaAcademiaDePizzeria
 
         public Color[] colors = { Colors.LightGreen, Colors.LightCoral, Colors.LightGray, Colors.Aqua, Colors.White };
 
+        public MediaPlayer mediaPlayer;
+
+        public class PlanningViewParameters
+        {
+            public MediaPlayer mediaPlayer;
+            public Geopoint[] requests;
+        }
+
         public PlanningView()
         {
             this.InitializeComponent();
@@ -71,7 +81,9 @@ namespace LocaAcademiaDePizzeria
             CloseDrivers();
 
             //Centrado del mapa sobre la posición de la pizzería
-            pizzeriaPosition =  e.Parameter as Geopoint;
+            MainMenuParameters p = e.Parameter as MainMenuParameters;
+            pizzeriaPosition = p.selectedLocation;
+            mediaPlayer = p.mediaPlayer;
             mapaSoria.Center = pizzeriaPosition;
             mapaSoria.ZoomLevel = 15;
 
@@ -176,7 +188,10 @@ namespace LocaAcademiaDePizzeria
 
         private void PizzaTime_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(ManualView), requests);
+            PlanningViewParameters p = new PlanningViewParameters();
+            p.mediaPlayer = mediaPlayer;
+            p.requests = requests;
+            this.Frame.Navigate(typeof(ManualView), p);
         }
 
         private void Request_Click(object sender, RoutedEventArgs e)
