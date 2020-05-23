@@ -61,6 +61,7 @@ namespace LocaAcademiaDePizzeria
             public MediaPlayer mediaPlayer;
             public MediaPlayer tutorialSounds;
             public Geopoint[] requests;
+            public Geopoint pizzeriaPosition;
         }
 
         public PlanningView()
@@ -247,6 +248,7 @@ namespace LocaAcademiaDePizzeria
             p.mediaPlayer = mediaPlayer;
             p.requests = requests;
             p.tutorialSounds = tutorialSounds;
+            p.pizzeriaPosition = pizzeriaPosition;
             this.Frame.Navigate(typeof(ManualView), p);
         }
 
