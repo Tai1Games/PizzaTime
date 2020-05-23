@@ -20,7 +20,7 @@
                 <Image Source="{x:Bind imgSource}" Grid.Row="0"
                        VerticalAlignment="Center" HorizontalAlignment="Center"
                        Stretch="UniformToFill" Margin="0,10,0,10" />
-                <ProgressBar Grid.Row ="1" Value ="{x:Bind carryCapacityBar()}" Background="Red" Foreground="LightGreen"
+                <ProgressBar Grid.Row ="1" Value ="{x:Bind carryBar,Mode=TwoWay}" Background="Red" Foreground="LightGreen"
                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="20" />
             </Grid>
         </DataTemplate>
@@ -50,7 +50,7 @@
                     <RowDefinition Height ="3*" />
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
-                <ProgressBar Grid.Row ="0" Value ="{x:Bind carryCapacityBar()}" Background="Red" Foreground="LightGreen"
+                <ProgressBar Grid.Row ="0" Value ="{x:Bind carryBar,Mode=OneWay}" Background="Red" Foreground="LightGreen"
                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="20" />
                 <Image Source="{x:Bind imgSource}" Grid.Row="1"
                        VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -74,7 +74,7 @@
             <Image Grid.Column="1" Source="Assets/Tayuno.png" HorizontalAlignment="Center" Margin="5,10,5,5" />
         </Grid>
         <Button Style="{StaticResource NextScreenButtonStyle}" Click="PizzaTime_Click">
-            <Image Source="Assets/PizzaTimeButton.png" Stretch="Fill"/>
+            <Image Source="Assets/PizzaTimeButton.png" Stretch="Fill" />
         </Button>
         <Grid x:Name="Grid_collapsedDrivers"
             HorizontalAlignment="Left" VerticalAlignment="Bottom"
@@ -87,14 +87,15 @@
                 Grid.Row="0"
                 x:Name="collapsedDrivers"
                 ItemsSource="{x:Bind DriverList, Mode=OneWay}"
-                ItemTemplate="{StaticResource DriverListView_Collapsed_DefaultItemTemplate}" Margin="0,0,10,0"/>
+                ItemTemplate="{StaticResource DriverListView_Collapsed_DefaultItemTemplate}" Margin="0,0,10,0"
+                      SelectionChanged="collapsedDrivers_SelectionChanged" />
             <Button Style="{StaticResource InvisibleButtonStyle}" Grid.Row="1" Click="OpenDriversButton_Click">
-                <Image Source="/Assets/BotonMenuRepartidor.png" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill"/>
+                <Image Source="/Assets/BotonMenuRepartidor.png" HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Fill" />
             </Button>
         </Grid>
         <Button Style="{StaticResource InvisibleButtonStyle}" x:Name="Button_OpenAbilitiesGrid" VerticalAlignment="Top" HorizontalAlignment="Left"
                Click="Button_OpenAbilitiesGrid_Click">
-            <Image Source="Assets/BotonMenuDron.png" Stretch="Fill"/>
+            <Image Source="Assets/BotonMenuDron.png" Stretch="Fill" />
         </Button>
         <Grid x:Name="Grid_expandedAbility"
             HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -119,7 +120,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <Button Style="{StaticResource CloseTabButtonStyle}" x:Name="Button_CloseAbilites" Click="Button_CloseAbilites_Click"/>
+            <Button Style="{StaticResource CloseTabButtonStyle}" x:Name="Button_CloseAbilites" Click="Button_CloseAbilites_Click" />
         </Grid>
         <Grid x:Name="Grid_expandedDrivers"
             HorizontalAlignment="Left" VerticalAlignment="Bottom"
@@ -143,7 +144,7 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <Button Style="{StaticResource CloseTabButtonStyle}" x:Name="Button_CloseDrivers" Click="Button_CloseDrivers_Click"/>
+            <Button Style="{StaticResource CloseTabButtonStyle}" x:Name="Button_CloseDrivers" Click="Button_CloseDrivers_Click" />
         </Grid>
         <Grid x:Name="Grid_DriverInfo" VerticalAlignment="Bottom" HorizontalAlignment="Right"
               Width="342" Height="420" Background="LightBlue" RenderTransformOrigin="0.499,0.643">

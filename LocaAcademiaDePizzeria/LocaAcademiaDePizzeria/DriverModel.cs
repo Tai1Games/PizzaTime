@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace LocaAcademiaDePizzeria
 {
-    public class Driver
+    public class Driver : INotifyPropertyChanged
     {
         public int maxDeliveries { get; set; }
 
@@ -15,6 +17,29 @@ namespace LocaAcademiaDePizzeria
         public int money { get; set; }
         public int speed { get; set; }
         public int happiness { get; set; }
+
+        private int _carryBar;
+
+        public int carryBar
+        {
+            get { return _carryBar; }
+            set
+            {
+                _carryBar = value;
+                NotifyPropertyChanged("carryBar");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
 
         public const int MAX_MONEY = 20;
         public const int MAX_SPEED = 55;
