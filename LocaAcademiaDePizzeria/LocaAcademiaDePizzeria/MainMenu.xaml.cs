@@ -32,6 +32,8 @@ namespace LocaAcademiaDePizzeria
         public Button selectedButton = null;
         public bool isPizzeriaSelected = false;
         Geopoint selectedLocation;
+        Button[] tutorials = new Button[2];
+        int currentTutorial = 0;
 
         public MainMenu()
         {
@@ -46,6 +48,42 @@ namespace LocaAcademiaDePizzeria
 
             mapaSoria.Center = new Geopoint(soriaPosition);
             mapaSoria.ZoomLevel = 15;
+
+            createTutorialImages();
+        }
+
+        private void createTutorialImages()
+        {
+            tutorials[0] = createTutorial(600, 250, 510, 140, "/Assets/Tutorials/T1-1.png", true);
+            tutorials[1] = createTutorial(600, 250, 510, 140, "/Assets/Tutorials/T1-2.png", false);
+        }
+
+        private Button createTutorial(int w, int h, int left, int top, string route, bool visible)
+        {
+            Button t = new Button();
+            t.Width = w; t.Height = h;
+            Image tImage = new Image();
+            tImage.Source = new BitmapImage(new Uri(this.BaseUri, route));
+            tImage.Stretch = Stretch.Uniform;
+            t.Content = tImage;
+            t.Click += tutorialImageClicked;
+            if (!visible) t.Visibility = Visibility.Collapsed;
+
+            tutorialCanvas.Children.Add(t);
+            Canvas.SetLeft(t, left);
+            Canvas.SetTop(t, top);
+            return t;
+        }
+
+        private void tutorialImageClicked(object sender, RoutedEventArgs e)
+        {
+            tutorials[currentTutorial].Visibility = Visibility.Collapsed;
+            currentTutorial++;
+            if (currentTutorial < tutorials.Length)
+            {
+                tutorials[currentTutorial].Visibility = Visibility.Visible;
+            }
+            else tutorialBlock.Visibility = Visibility.Collapsed;
         }
 
         private void CreatePizzerias()
