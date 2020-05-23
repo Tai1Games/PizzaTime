@@ -36,6 +36,8 @@ namespace LocaAcademiaDePizzeria
         public ObservableCollection<DriverViewModel> DriverList { get; } = new ObservableCollection<DriverViewModel>();
         public ObservableCollection<AbilityViewModel> AbilityList { get; } = new ObservableCollection<AbilityViewModel>();
 
+        private DriverViewModel selectedDriver = null;
+
         public int playerMoney = 400;
 
         public Random rnd = new Random();
@@ -196,14 +198,29 @@ namespace LocaAcademiaDePizzeria
 
         private void Request_Click(object sender, RoutedEventArgs e)
         {
-            //Geopoint g = new Geopoint(args.Location.Position);
-            int i = mapaSoria.Children.IndexOf(e.OriginalSource as DependencyObject);
-            i--; //el primer child es la pizzería
+            if (selectedDriver != null)
+            {
+                int i = mapaSoria.Children.IndexOf(e.OriginalSource as DependencyObject);
+                i--; //el primer child es la pizzería
+                //logica asgiganr pedido
+                if (!mapaSoria.Routes.Contains(routeViews[i]))
+                {
+                    if (selectedDriver.actDeliveries < selectedDriver.maxDeliveries)
+                    {
+                        selectedDriver.actDeliveries++;
+                        mapaSoria.Routes.Add(routeViews[i]);
+                    }
+                }
+                else
+                {
+                    selectedDriver.actDeliveries--;
+                    mapaSoria.Routes.Remove(routeViews[i]);
+                }
 
-            //si ya está mostrada la escondemos
-            if (mapaSoria.Routes.Contains(routeViews[i])) mapaSoria.Routes.Remove(routeViews[i]);
-            //si no, al revés
-            else mapaSoria.Routes.Add(routeViews[i]);
+
+                selectedDriver.carryBar = (int)(100 * (double)selectedDriver.actDeliveries / (double)selectedDriver.maxDeliveries);
+                //Geopoint g = new Geopoint(args.Location.Position);
+            }
         }
 
         private void expandedDrivers_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -211,21 +228,24 @@ namespace LocaAcademiaDePizzeria
             Grid_AbilityInfo.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             Grid_DriverInfo.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
-            DriverViewModel selected = e.AddedItems.First() as DriverViewModel;
+            selectedDriver = e.AddedItems.First() as DriverViewModel;
 
-            driverInfoImg.Source = selected.img.Source;
-            driverInfoDescription.Text = selected.name;
-            driverInfoMoneyBar.Value = selected.moneyRatio();
-            driverInfoMoneyTxt.Text = selected.moneyRatiostring();
+            if (selectedDriver != null)
+            {
+                driverInfoImg.Source = selectedDriver.img.Source;
+                driverInfoDescription.Text = selectedDriver.name;
+                driverInfoMoneyBar.Value = selectedDriver.moneyRatio();
+                driverInfoMoneyTxt.Text = selectedDriver.moneyRatiostring();
 
-            driverInfoSpeedBar.Value = selected.speedRatio();
-            driverInfoSpeedTxt.Text = selected.speedRatiostring();
+                driverInfoSpeedBar.Value = selectedDriver.speedRatio();
+                driverInfoSpeedTxt.Text = selectedDriver.speedRatiostring();
 
-            driverInfoCarryBar.Value = selected.carryRatio();
-            driverInfoCarryTxt.Text = selected.carryRatiostring();
+                driverInfoCarryBar.Value = selectedDriver.carryRatio();
+                driverInfoCarryTxt.Text = selectedDriver.carryRatiostring();
 
-            driverInfoHappinessBar.Value = selected.happinessRatio();
-            driverInfoHappinessTxt.Text = selected.happinessRatiostring();
+                driverInfoHappinessBar.Value = selectedDriver.happinessRatio();
+                driverInfoHappinessTxt.Text = selectedDriver.happinessRatiostring();
+            }
         }
 
         private void expandedAbility_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -274,6 +294,11 @@ namespace LocaAcademiaDePizzeria
                 }
             }
             return null;
+        }
+
+        private void collapsedDrivers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedDriver = e.AddedItems.First() as DriverViewModel;
         }
     }
 }
