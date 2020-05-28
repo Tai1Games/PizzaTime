@@ -49,9 +49,11 @@ namespace LocaAcademiaDePizzeria
 
         public DateTime dateTimer;
 
-        public Geopoint[] requests = new Geopoint[5];
+        public Geopoint[] requests;
 
-        public Color[] colors = { Colors.LightGreen, Colors.LightCoral, Colors.LightGray};
+        public MapRouteView[] routeViews;
+
+        public bool[] isRouteVisible;
 
         public MediaPlayer mediaPlayer;
 
@@ -93,6 +95,8 @@ namespace LocaAcademiaDePizzeria
             PlanningViewParameters p = e.Parameter as PlanningViewParameters;
             mediaPlayer = p.mediaPlayer;
             requests = p.requests;
+            routeViews = p.routeViews;
+            isRouteVisible = p.isRouteVisible;
             tutorialSounds = p.tutorialSounds;
             pizzeriaPosition = p.pizzeriaPosition;
             CreateBikes();
@@ -140,37 +144,26 @@ namespace LocaAcademiaDePizzeria
             }
         }
 
-        private async void CreateBikes()
+        private void CreateBikes()
         {
-            BasicGeoposition bikerPos1; bikerPos1.Latitude = 41.765633; bikerPos1.Longitude = -2.471333; bikerPos1.Altitude = 1050;
-            BasicGeoposition bikerPos2; bikerPos2.Latitude = 41.769806; bikerPos2.Longitude = -2.474726; bikerPos2.Altitude = 1050;
-            BasicGeoposition bikerPos3; bikerPos3.Latitude = 41.761557; bikerPos3.Longitude = -2.468557; bikerPos3.Altitude = 1050;
+            List<Color> colors = new List<Color>();
 
-            Geopoint[] bikerPositions = new Geopoint[]{ new Geopoint(bikerPos1), new Geopoint(bikerPos2),
-                new Geopoint(bikerPos3) };
-
+            //create as many bikers as selected halfway to one of their deliveries
             for(int i = 0; i< 5; i++)
             {
-                //bikes
-                createImage("/Assets/ManualView/Bike.png", bikerPositions[i%3]);
+                if(isRouteVisible[i] && !colors.Contains(routeViews[i].RouteColor)){
+                    colors.Add(routeViews[i].RouteColor);
+                    BasicGeoposition bikerPos = routeViews[i].Route.Path.Positions[routeViews[i].Route.Path.Positions.Count / 2];
+                    createImage("/Assets/ManualView/Bike.png", new Geopoint(bikerPos));
+                }
+            }
 
+            for (int i = 0; i< 5; i++)
+            {
                 //requests
                 createImage("/Assets/ManualView/Request.png", requests[i]);
 
-                MapRouteFinderResult routeResult = await MapRouteFinder.GetDrivingRouteAsync(bikerPositions[i%3], requests[i],
-                    MapRouteOptimization.Distance, MapRouteRestrictions.None);
-
-                //Proceso de mostrar la ruta anterior en el mapa
-                if (routeResult.Status == MapRouteFinderStatus.Success)
-                {
-                    // Inicializamos un MapRouteView
-                    MapRouteView viewOfRoute = new MapRouteView(routeResult.Route);
-                    viewOfRoute.RouteColor = colors[i%3];
-                    viewOfRoute.OutlineColor = Colors.Black;
-
-                    // Lo añadimos a la colección Routes del mapa
-                    mapaSoria.Routes.Add(viewOfRoute);
-                }
+                if(isRouteVisible[i]) mapaSoria.Routes.Add(routeViews[i]);
             }
         }
 

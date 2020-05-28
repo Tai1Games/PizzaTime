@@ -13,8 +13,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
@@ -48,7 +46,7 @@ namespace LocaAcademiaDePizzeria
 
         public MapRouteView[] routeViews = new MapRouteView[5];
 
-        public Color[] colors = { Colors.LightGreen, Colors.LightCoral, Colors.LightGray, Colors.Aqua, Colors.White };
+        public bool[] isRouteVisible = new bool[5];
 
         public MediaPlayer mediaPlayer;
         public MediaPlayer tutorialSounds;
@@ -61,7 +59,8 @@ namespace LocaAcademiaDePizzeria
             public MediaPlayer mediaPlayer;
             public MediaPlayer tutorialSounds;
             public Geopoint[] requests;
-            public Geopoint pizzeriaPosition;
+            public MapRouteView[] routeViews;
+            public bool[] isRouteVisible;
         }
 
         public PlanningView()
@@ -186,10 +185,11 @@ namespace LocaAcademiaDePizzeria
                 {
                     // Inicializamos un MapRouteView
                     MapRouteView viewOfRoute = new MapRouteView(routeResult.Route);
-                    viewOfRoute.RouteColor = colors[i];
+                    viewOfRoute.RouteColor = Colors.Black;
                     viewOfRoute.OutlineColor = Colors.Black;
 
                     routeViews[i] = viewOfRoute; //guardamos pero no mostramos
+                    isRouteVisible[i] = false;
                 }
             }
         }
@@ -249,6 +249,8 @@ namespace LocaAcademiaDePizzeria
             PlanningViewParameters p = new PlanningViewParameters();
             p.mediaPlayer = mediaPlayer;
             p.requests = requests;
+            p.routeViews = routeViews;
+            p.isRouteVisible = isRouteVisible;
             p.tutorialSounds = tutorialSounds;
             p.pizzeriaPosition = pizzeriaPosition;
             this.Frame.Navigate(typeof(ManualView), p);
@@ -260,19 +262,23 @@ namespace LocaAcademiaDePizzeria
             {
                 int i = mapaSoria.Children.IndexOf(e.OriginalSource as DependencyObject);
                 i--; //el primer child es la pizzería
+                routeViews[i].RouteColor = selectedDriver.routeColor;
+
                 //logica asgiganr pedido
-                if (!mapaSoria.Routes.Contains(routeViews[i]))
+                if (!isRouteVisible[i])
                 {
                     if (selectedDriver.actDeliveries < selectedDriver.maxDeliveries)
                     {
                         selectedDriver.actDeliveries++;
                         mapaSoria.Routes.Add(routeViews[i]);
+                        isRouteVisible[i] = true;
                     }
                 }
                 else
                 {
                     selectedDriver.actDeliveries--;
                     mapaSoria.Routes.Remove(routeViews[i]);
+                    isRouteVisible[i] = false;
                 }
 
 
