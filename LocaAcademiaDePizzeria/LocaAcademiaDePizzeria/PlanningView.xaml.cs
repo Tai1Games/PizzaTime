@@ -61,6 +61,7 @@ namespace LocaAcademiaDePizzeria
             public Geopoint[] requests;
             public MapRouteView[] routeViews;
             public bool[] isRouteVisible;
+            public Geopoint pizzeriaPosition;
         }
 
         public PlanningView()
@@ -252,6 +253,7 @@ namespace LocaAcademiaDePizzeria
             p.routeViews = routeViews;
             p.isRouteVisible = isRouteVisible;
             p.tutorialSounds = tutorialSounds;
+            p.pizzeriaPosition = pizzeriaPosition;
             this.Frame.Navigate(typeof(ManualView), p);
         }
 

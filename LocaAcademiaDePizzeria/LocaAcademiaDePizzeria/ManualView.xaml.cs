@@ -41,7 +41,7 @@ namespace LocaAcademiaDePizzeria
 
         public int maxJoystickDistance = 60;
 
-        public int timerSpeed = 1;
+        public int timerSpeed = 100;
 
         public double opacityChange = 0.5;
 
@@ -98,6 +98,7 @@ namespace LocaAcademiaDePizzeria
             routeViews = p.routeViews;
             isRouteVisible = p.isRouteVisible;
             tutorialSounds = p.tutorialSounds;
+            pizzeriaPosition = p.pizzeriaPosition;
             CreateBikes();
             createTutorials();
         }
