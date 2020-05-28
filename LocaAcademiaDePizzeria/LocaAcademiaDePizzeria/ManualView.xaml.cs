@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using static LocaAcademiaDePizzeria.PlanningView;
+using static LocaAcademiaDePizzeria.MainMenu;
 
 // La plantilla de elemento Página en blanco está documentada en https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -40,21 +41,27 @@ namespace LocaAcademiaDePizzeria
 
         public int maxJoystickDistance = 60;
 
-        public int timerSpeed = 10;
+        public int timerSpeed = 1;
 
         public double opacityChange = 0.5;
+
+        public DispatcherTimer dispatcherTimer;
 
         public DateTime dateTimer;
 
         public Geopoint[] requests = new Geopoint[5];
 
-        public Color[] colors = { Colors.LightGreen, Colors.LightCoral, Colors.LightGray, Colors.Aqua, Colors.White };
+        public Color[] colors = { Colors.LightGreen, Colors.LightCoral, Colors.LightGray};
 
         public MediaPlayer mediaPlayer;
+
         public MediaPlayer tutorialSounds;
 
         private Button[] tutorials = new Button[7];
+
         private int currentTutorial = 0;
+
+        public Geopoint pizzeriaPosition;
 
         public ManualView()
         {
@@ -72,7 +79,7 @@ namespace LocaAcademiaDePizzeria
             mapaSoria.ZoomLevel = 15;
 
             //timer
-            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler<object>(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, timerSpeed);
             dispatcherTimer.Start();
@@ -87,6 +94,7 @@ namespace LocaAcademiaDePizzeria
             mediaPlayer = p.mediaPlayer;
             requests = p.requests;
             tutorialSounds = p.tutorialSounds;
+            pizzeriaPosition = p.pizzeriaPosition;
             CreateBikes();
             createTutorials();
         }
@@ -134,25 +142,22 @@ namespace LocaAcademiaDePizzeria
 
         private async void CreateBikes()
         {
-            BasicGeoposition pizzaPos1; pizzaPos1.Latitude = 41.765633; pizzaPos1.Longitude = -2.471333; pizzaPos1.Altitude = 1050;
-            BasicGeoposition pizzaPos2; pizzaPos2.Latitude = 41.769806; pizzaPos2.Longitude = -2.474726; pizzaPos2.Altitude = 1050;
-            BasicGeoposition pizzaPos3; pizzaPos3.Latitude = 41.761557; pizzaPos3.Longitude = -2.468557; pizzaPos3.Altitude = 1050;
-            BasicGeoposition pizzaPos4; pizzaPos4.Latitude = 41.760440; pizzaPos4.Longitude = -2.474464; pizzaPos4.Altitude = 1050;
-            BasicGeoposition pizzaPos5; pizzaPos5.Latitude = 41.769015; pizzaPos5.Longitude = -2.466636; pizzaPos5.Altitude = 1050;
+            BasicGeoposition bikerPos1; bikerPos1.Latitude = 41.765633; bikerPos1.Longitude = -2.471333; bikerPos1.Altitude = 1050;
+            BasicGeoposition bikerPos2; bikerPos2.Latitude = 41.769806; bikerPos2.Longitude = -2.474726; bikerPos2.Altitude = 1050;
+            BasicGeoposition bikerPos3; bikerPos3.Latitude = 41.761557; bikerPos3.Longitude = -2.468557; bikerPos3.Altitude = 1050;
 
-            Geopoint[] pizzeriaPositions = new Geopoint[5]{ new Geopoint(pizzaPos1), new Geopoint(pizzaPos2),
-                new Geopoint(pizzaPos3), new Geopoint(pizzaPos4), new Geopoint(pizzaPos5) };
-          
+            Geopoint[] bikerPositions = new Geopoint[]{ new Geopoint(bikerPos1), new Geopoint(bikerPos2),
+                new Geopoint(bikerPos3) };
 
             for(int i = 0; i< 5; i++)
             {
                 //bikes
-                createImage("/Assets/ManualView/Bike.png", pizzeriaPositions[i]);
+                createImage("/Assets/ManualView/Bike.png", bikerPositions[i%3]);
 
                 //requests
                 createImage("/Assets/ManualView/Request.png", requests[i]);
 
-                MapRouteFinderResult routeResult = await MapRouteFinder.GetDrivingRouteAsync(pizzeriaPositions[i], requests[i],
+                MapRouteFinderResult routeResult = await MapRouteFinder.GetDrivingRouteAsync(bikerPositions[i%3], requests[i],
                     MapRouteOptimization.Distance, MapRouteRestrictions.None);
 
                 //Proceso de mostrar la ruta anterior en el mapa
@@ -160,7 +165,7 @@ namespace LocaAcademiaDePizzeria
                 {
                     // Inicializamos un MapRouteView
                     MapRouteView viewOfRoute = new MapRouteView(routeResult.Route);
-                    viewOfRoute.RouteColor = colors[i];
+                    viewOfRoute.RouteColor = colors[i%3];
                     viewOfRoute.OutlineColor = Colors.Black;
 
                     // Lo añadimos a la colección Routes del mapa
@@ -223,6 +228,16 @@ namespace LocaAcademiaDePizzeria
         {
             dateTimer = dateTimer.AddSeconds(1);
             Timer.Text = dateTimer.Hour.ToString("D2") + ":" + dateTimer.Minute.ToString("D2") + ":" + dateTimer.Second.ToString("D2");
+            if(dateTimer.Hour >= 20)
+            {
+                MainMenuParameters p = new MainMenuParameters();
+                p.mediaPlayer = mediaPlayer;
+                p.selectedLocation = pizzeriaPosition;
+                p.tutorialSounds = tutorialSounds;
+                this.Frame.Navigate(typeof(PlanningView), p);
+                dateTimer.Subtract(dateTimer);
+                dispatcherTimer.Stop();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
