@@ -252,7 +252,6 @@ namespace LocaAcademiaDePizzeria
             p.routeViews = routeViews;
             p.isRouteVisible = isRouteVisible;
             p.tutorialSounds = tutorialSounds;
-            p.pizzeriaPosition = pizzeriaPosition;
             this.Frame.Navigate(typeof(ManualView), p);
         }
 
