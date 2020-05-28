@@ -98,7 +98,6 @@ namespace LocaAcademiaDePizzeria
             routeViews = p.routeViews;
             isRouteVisible = p.isRouteVisible;
             tutorialSounds = p.tutorialSounds;
-            pizzeriaPosition = p.pizzeriaPosition;
             CreateBikes();
             createTutorials();
         }
